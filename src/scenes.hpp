@@ -1,17 +1,21 @@
 #ifndef SCENES_HPP
 #define SCENES_HPP
 
+#include <cstddef>
 
 #include "scenes.hpp"
 #include "vec2.hpp"
 #include "player.hpp"
 #include "defines.hpp"
 
-#define TITLE_SCREEN "../path/file.bmp"
+Button getButton()
+{
+    Button newButton = Button::NONE;
 
-#include "defines.hpp"
-
-
+    //TODO: impl
+    
+    return newButton;
+}
 
 class Scene
 {
@@ -45,7 +49,7 @@ public:
 
     Loading()
     {
-        //calls to load the image
+        //calls to load the image?
         //set text pos
     }
 
@@ -72,7 +76,8 @@ class MainMenu : public Scene
 public:
     MainMenu()
     {
-        //call to load image
+        //call to load image?
+        //set text_pos
     }
 
     virtual void render() override
@@ -85,12 +90,12 @@ public:
     virtual GameState processInput()
     {
         bool input = false;
-        //handle input
+        
 
         while(!input)
         {
             //read input
-            Buttons button; // = call to func that return a button pressed
+            Button button = getButton();
             if (button)
             {
                 input = true;
@@ -101,6 +106,46 @@ public:
         
         return GameState::GAME_VIEW;
     }
+private:
+    vec2 m_TextPos;
+};
+
+class GameOver : public Scene
+{
+public:
+    GameOver()
+    {
+        //set text pos
+    }
+
+    virtual void render() override
+    {
+
+    }
+
+    virtual GameState processInput() override
+    {
+        GameState newGamestate = GameState::GAME_OVER;
+        
+        bool input = false;
+        //handle input
+
+        while(!input)
+        {
+            //read input
+            Button button = getButton();
+            if (button)
+            {
+                input = true;
+            }
+
+            //sleep??
+        }
+        
+        return newGamestate;
+    }
+private:
+    vec2 m_TextPos;
 };
 
 class MazeGame : public Scene
@@ -114,7 +159,8 @@ public:
     virtual void render() override
     {
         clearScreen();
-        //ray casting
+        drawCeilFloor();
+        rayCasting();
     }
 
     virtual GameState processInput() override
@@ -122,11 +168,12 @@ public:
         bool input = false;
         bool gameOver = false;
         GameState newState = GameState::GAME_VIEW;
-        Buttons keyPressed = Buttons::NONE;
+        Button keyPressed = Button::NONE;
 
         while (!input)
         {
             //TODO: get input
+
             switch (keyPressed)
             {
             case NONE:
@@ -165,6 +212,41 @@ public:
         }
 
         return newState;
+    }
+private:
+    void rayCasting()
+    {
+        vec2 rayDir;
+
+        for (int x = 0; x < SCREEN_WIDTH; x++)
+        {
+            float cameraX = 2.0f * x / (float) SCREEN_WIDTH - 1;
+            rayDir.x = player.dir.x + player.cameraPlane.x * cameraX;
+            rayDir.y = player.dir.y + player.cameraPlane.y * cameraX;
+
+            int mapX = (int)player.pos.x;
+            int mapY = (int)player.pos.y;
+
+            vec2 sideDist;
+            vec2 deltaDist;
+            float perpDist;
+
+            deltaDist.x = (rayDir.x == 0) ? 1e30 : std::abs(1 / rayDir.x);
+            deltaDist.y = (rayDir.y == 0) ? 1e30 : std::abs(1 / rayDir.y);
+
+
+        }
+    }
+
+    void drawCeilFloor()
+    {
+        //draw black rect top half
+        //draw grey rect bottom half
+    }
+
+    void drawVertLine(int lenght, int color)
+    {
+        //drawcall line
     }
 
 };

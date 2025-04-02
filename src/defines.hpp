@@ -7,6 +7,8 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
+#define MAX_LINE_LEN (SCREEN_HEIGHT - 8)
+
 //the size of the map should be related to the screen res so we can fill the map_view and have easier time rendering it. ig: yRes = 200, we can have 20 or 10 or any n*m = 20
 #define MAP_WIDTH 32
 #define MAP_HEIGHT 24
@@ -24,7 +26,7 @@
 
 #define PI 3.14159265359
 
-enum Buttons
+enum Button
 {
     NONE = 0,
     KEY_UP,
