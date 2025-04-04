@@ -1,0 +1,3 @@
+BasedOnStyle: LLVM
+BreakBeforeBraces: Allman   # Moves braces to a new line (C++ style)
+Cpp11BracedListStyle: false # Adds spaces inside `{ }` and some others
