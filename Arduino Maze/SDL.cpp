@@ -1,6 +1,9 @@
 #include "SDL.h"
+#include "defines.hpp"
 #include <SDL3\SDL_error.h>
+#include <SDL3\SDL_events.h>
 #include <SDL3\SDL_init.h>
+#include <SDL3\SDL_keycode.h>
 #include <SDL3\SDL_log.h>
 #include <SDL3\SDL_render.h>
 #include <SDL3\SDL_video.h>
@@ -11,6 +14,8 @@ const int16_t kScreenHeight = 240;
 
 SDL_Window *gWindow{ nullptr };
 SDL_Renderer *gRenderer{ nullptr };
+
+SDL_Event gEvent;
 
 ArduinoSDLError::ArduinoSDLError(const std::string &msg) : message(msg) {}
 
@@ -50,4 +55,24 @@ void close()
 
   // Quit SDL subsystems
   SDL_Quit();
+}
+
+Button getInput()
+{
+  if (gEvent.type == SDL_EVENT_KEY_DOWN)
+  {
+    switch (gEvent.key.key)
+    {
+    case SDLK_UP:
+      return KEY_UP;
+    case SDLK_LEFT:
+      return KEY_LEFT;
+    case SDLK_RIGHT:
+      return KEY_RIGHT;
+    case SDLK_SPACE:
+      return KEY_OPTION;
+    }
+  }
+
+  return NONE;
 }

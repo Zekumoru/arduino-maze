@@ -1,5 +1,7 @@
 #pragma once
 
+#include "defines.hpp"
+#include <SDL3\SDL_events.h>
 #include <SDL3\SDL_render.h>
 #include <SDL3\SDL_video.h>
 #include <cstdint>
@@ -11,6 +13,8 @@ extern const int16_t kScreenHeight;
 
 extern SDL_Window *gWindow;
 extern SDL_Renderer *gRenderer;
+
+extern SDL_Event gEvent; // Not using pointer to copy original event
 
 class ArduinoSDLError : public std::exception
 {
@@ -24,3 +28,5 @@ public:
 void init();
 
 void close();
+
+Button getInput();
