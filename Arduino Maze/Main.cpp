@@ -27,10 +27,6 @@ int main(int argc, char *args[])
       {
         quit = true;
       }
-      else
-      {
-        gEvent = e;
-      }
     }
 
     loop();

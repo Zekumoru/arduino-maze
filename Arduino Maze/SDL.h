@@ -14,8 +14,6 @@ extern const int16_t kScreenHeight;
 extern SDL_Window *gWindow;
 extern SDL_Renderer *gRenderer;
 
-extern SDL_Event gEvent; // Not using pointer to copy original event
-
 class ArduinoSDLError : public std::exception
 {
   std::string message;
@@ -30,3 +28,5 @@ void init();
 void close();
 
 Button getInput();
+
+float getDeltaTime();

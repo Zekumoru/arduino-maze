@@ -3,9 +3,13 @@
 #include <SDL3\SDL_error.h>
 #include <SDL3\SDL_events.h>
 #include <SDL3\SDL_init.h>
+#include <SDL3\SDL_keyboard.h>
 #include <SDL3\SDL_keycode.h>
 #include <SDL3\SDL_log.h>
 #include <SDL3\SDL_render.h>
+#include <SDL3\SDL_scancode.h>
+#include <SDL3\SDL_stdinc.h>
+#include <SDL3\SDL_timer.h>
 #include <SDL3\SDL_video.h>
 #include <cstdint>
 
@@ -14,8 +18,6 @@ const int16_t kScreenHeight = 240;
 
 SDL_Window *gWindow{ nullptr };
 SDL_Renderer *gRenderer{ nullptr };
-
-SDL_Event gEvent;
 
 ArduinoSDLError::ArduinoSDLError(const std::string &msg) : message(msg) {}
 
@@ -59,20 +61,28 @@ void close()
 
 Button getInput()
 {
-  if (gEvent.type == SDL_EVENT_KEY_DOWN)
-  {
-    switch (gEvent.key.key)
-    {
-    case SDLK_UP:
-      return KEY_UP;
-    case SDLK_LEFT:
-      return KEY_LEFT;
-    case SDLK_RIGHT:
-      return KEY_RIGHT;
-    case SDLK_SPACE:
-      return KEY_OPTION;
-    }
-  }
+  const bool *keystate = SDL_GetKeyboardState(nullptr);
+
+  if (keystate[SDL_SCANCODE_LEFT])
+    return KEY_LEFT;
+  if (keystate[SDL_SCANCODE_RIGHT])
+    return KEY_RIGHT;
+  if (keystate[SDL_SCANCODE_UP])
+    return KEY_UP;
+  if (keystate[SDL_SCANCODE_SPACE])
+    return KEY_OPTION;
 
   return NONE;
+}
+
+Uint64 lastTime = SDL_GetPerformanceCounter();
+
+float getDeltaTime()
+{
+  Uint64 now = SDL_GetPerformanceCounter();
+  float deltaTime =
+      (float)((now - lastTime) * 1000 / (double)SDL_GetPerformanceFrequency()) *
+      0.001f;
+  lastTime = now;
+  return deltaTime;
 }

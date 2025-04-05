@@ -4,6 +4,7 @@
 #include "defines.hpp"
 // Arduino Related Includes
 #include "Adafruit_ILI9341.h"
+#include <cmath>
 
 #define TFT_DC 9
 #define TFT_CS 10
@@ -16,35 +17,41 @@ void setup()
   tft.setRotation(1);
 }
 
-int x = 0;
-int y = 0;
+float posX = 0;
+float posY = 0;
+int speed = 200; // in pixels
 
 void loop()
 {
   Button pressed = getInput();
+  float deltaTime = getDeltaTime();
 
   if (pressed == KEY_LEFT)
   {
-    x -= 1;
+    posX -= speed * deltaTime;
 
-    if (x < 0)
+    if (posX < 0)
     {
-      x = 0;
+      posX = 0;
     }
   }
   if (pressed == KEY_RIGHT)
   {
-    x += 1;
+    posX += speed * deltaTime;
 
-    if (x > SCREEN_WIDTH - 1)
+    if (posX > SCREEN_WIDTH - 1)
     {
-      x = SCREEN_WIDTH - 1;
+      posX = SCREEN_WIDTH - 1;
     }
   }
 
+  // Convert to integers for rendering
+  int renderPosX = static_cast<int>(std::round(posX));
+  int renderPosY = static_cast<int>(std::round(posY));
+
   tft.fillScreen(ILI9341_WHITE);
 
-  tft.setCursor(x, y);
+  tft.setCursor(renderPosX, renderPosY);
   tft.setTextColor(ILI9341_BLACK);
   tft.setTextSize(3);
   tft.println("Hello Roby!\nThis is a simulation!! :D");
