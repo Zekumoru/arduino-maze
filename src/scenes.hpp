@@ -12,8 +12,8 @@ Button getButton()
 {
     Button newButton = Button::NONE;
 
-    //TODO: impl
-    
+    // TODO: impl
+
     return newButton;
 }
 
@@ -28,29 +28,27 @@ public:
 protected:
     void clearScreen()
     {
-        //TODO : call to clear pixel buffer with black
+        // TODO : call to clear pixel buffer with black
     }
 };
 
-//if the image has a pointer to data should be declared here globally to be used by mainmenu aswell
+// if the image has a pointer to data should be declared here globally to be used by mainmenu aswell
 
 static Player player(vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f));
 
-int map[MAP_HEIGHT][MAP_WIDTH] = 
-{
-    { }
-};
+int map[MAP_HEIGHT][MAP_WIDTH] =
+    {
+        {}};
 
-int unconveredMap [MAP_HEIGHT][MAP_WIDTH];
+int unconveredMap[MAP_HEIGHT][MAP_WIDTH];
 
 class Loading : public Scene
 {
 public:
-
     Loading()
     {
-        //calls to load the image?
-        //set text pos
+        // calls to load the image?
+        // set text pos
     }
 
     virtual GameState processInput() override
@@ -61,14 +59,13 @@ public:
     virtual void render() override
     {
         clearScreen();
-        //call to render the image
-        //call to render the text "Loading..."
+        // call to render the image
+        // call to render the text "Loading..."
     }
 
 private:
-    //imageData Data; ???
+    // imageData Data; ???
     vec2 textPos;
-
 };
 
 class MainMenu : public Scene
@@ -76,36 +73,36 @@ class MainMenu : public Scene
 public:
     MainMenu()
     {
-        //call to load image?
-        //set text_pos
+        // call to load image?
+        // set text_pos
     }
 
     virtual void render() override
     {
         clearScreen();
-        //call to render image
-        //call to render text "Press a button to start"
+        // call to render image
+        // call to render text "Press a button to start"
     }
 
     virtual GameState processInput()
     {
         bool input = false;
-        
 
-        while(!input)
+        while (!input)
         {
-            //read input
+            // read input
             Button button = getButton();
             if (button)
             {
                 input = true;
             }
 
-            //sleep??
+            // sleep??
         }
-        
+
         return GameState::GAME_VIEW;
     }
+
 private:
     vec2 m_TextPos;
 };
@@ -115,35 +112,35 @@ class GameOver : public Scene
 public:
     GameOver()
     {
-        //set text pos
+        // set text pos
     }
 
     virtual void render() override
     {
-
     }
 
     virtual GameState processInput() override
     {
         GameState newGamestate = GameState::GAME_OVER;
-        
-        bool input = false;
-        //handle input
 
-        while(!input)
+        bool input = false;
+        // handle input
+
+        while (!input)
         {
-            //read input
+            // read input
             Button button = getButton();
             if (button)
             {
                 input = true;
             }
 
-            //sleep??
+            // sleep??
         }
-        
+
         return newGamestate;
     }
+
 private:
     vec2 m_TextPos;
 };
@@ -153,7 +150,7 @@ class MazeGame : public Scene
 public:
     MazeGame()
     {
-        //set all values to 0
+        // set all values to 0
     }
 
     virtual void render() override
@@ -172,7 +169,7 @@ public:
 
         while (!input)
         {
-            //TODO: get input
+            // TODO: get input
 
             switch (keyPressed)
             {
@@ -185,7 +182,7 @@ public:
                     newState = GameState::GAME_OVER;
 
                 break;
-                
+
             case KEY_LEFT:
                 player.rotate(-90);
                 input = true;
@@ -201,18 +198,19 @@ public:
                 input = true;
                 break;
             }
-            
-            //maybe this should be done in the gameover class
+
+            // maybe this should be done in the gameover class
             if (newState == GameState::GAME_OVER)
             {
-                //reset discovered map
-                //reset player pos
-                //reset player dir
+                // reset discovered map
+                // reset player pos
+                // reset player dir
             }
         }
 
         return newState;
     }
+
 private:
     void rayCasting()
     {
@@ -220,7 +218,7 @@ private:
 
         for (int x = 0; x < SCREEN_WIDTH; x++)
         {
-            float cameraX = 2.0f * x / (float) SCREEN_WIDTH - 1;
+            float cameraX = 2.0f * x / (float)SCREEN_WIDTH - 1;
             rayDir.x = player.dir.x + player.cameraPlane.x * cameraX;
             rayDir.y = player.dir.y + player.cameraPlane.y * cameraX;
 
@@ -233,22 +231,19 @@ private:
 
             deltaDist.x = (rayDir.x == 0) ? 1e30 : std::abs(1 / rayDir.x);
             deltaDist.y = (rayDir.y == 0) ? 1e30 : std::abs(1 / rayDir.y);
-
-
         }
     }
 
     void drawCeilFloor()
     {
-        //draw black rect top half
-        //draw grey rect bottom half
+        // draw black rect top half
+        // draw grey rect bottom half
     }
 
     void drawVertLine(int lenght, int color)
     {
-        //drawcall line
+        // drawcall line
     }
-
 };
 
 #endif

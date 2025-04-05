@@ -1,8 +1,4 @@
 #ifndef TITLE_SCREEN_HPP
 #define TITLE_SCREEN_HPP
 
-
-
-
-
 #endif // !TITLE_SCREEN_HPP

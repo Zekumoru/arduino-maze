@@ -3,16 +3,19 @@
 
 #include <cmath>
 
-//tft screen res
+// tft screen res
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
 #define MAX_LINE_LEN (SCREEN_HEIGHT - 8)
 
-//the size of the map should be related to the screen res so we can fill the map_view and have easier time rendering it. ig: yRes = 200, we can have 20 or 10 or any n*m = 20
+// the size of the map should be related to the screen res so we can fill the
+// map_view and have easier time rendering it. ig: yRes = 200, we can have
+// 20 or 10 or any n*m = 20
 #define MAP_WIDTH 32
 #define MAP_HEIGHT 24
-#define CELL_SIZE 10 //it's in pixels. one side needed since it's gonna be a square, used to render the minimap
+#define CELL_SIZE 10 // it's in pixels. one side needed since it's gonna
+                     // be a square, used to render the minimap
 
 #define COL_BLACK 0x000F
 #define COL_GREY 0x888F
@@ -57,7 +60,7 @@ inline static float sinLT[360];
 
 float radians(int angle)
 {
-    return (float) angle * PI / 180;
+    return (float)angle * PI / 180;
 }
 
 inline void initTables()

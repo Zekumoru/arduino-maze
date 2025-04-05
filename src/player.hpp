@@ -9,20 +9,20 @@ extern float sinLT[];
 class Player
 {
 public:
-    Player(vec2&& _pos)
+    Player(vec2 &&_pos)
     {
         pos = _pos;
         m_fov = 75.0f;
         dir = vec2(0.0f, 1.0f);
         cameraPlane = vec2(m_fov, 0.0f);
     }
-    
+
     void movePlayer(float distance)
     {
         pos.x += distance * dir.x;
         pos.y += distance * dir.y;
     };
-    
+
     void rotate(int angle)
     {
         m_angle += angle;
@@ -37,10 +37,11 @@ public:
     vec2 pos;
     vec2 dir;
     vec2 cameraPlane;
+
 private:
     int m_angle;
 
-    float m_fov; //need to choose witch one to use
+    float m_fov; // need to choose witch one to use
 
     void rotateCamera(int _angle)
     {
@@ -51,6 +52,5 @@ private:
         cameraPlane.y = cameraPlane.x * sinLT[_angle] + cosLT[_angle] * cameraPlane.y;
     }
 };
-
 
 #endif // !PLAYER_HPP
