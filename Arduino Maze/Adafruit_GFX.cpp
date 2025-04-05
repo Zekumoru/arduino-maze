@@ -1,6 +1,10 @@
 #include "Adafruit_GFX.h"
 
+#include "SDL.h"
 #include "font.h"
+#include <SDL3\SDL_rect.h>
+#include <SDL3\SDL_render.h>
+#include <SDL3\SDL_video.h>
 #include <cstdint>
 #include <utility>
 
@@ -8,6 +12,12 @@ Adafruit_GFX::Adafruit_GFX(SDL_Window *window, SDL_Renderer *renderer,
                            int16_t width, int16_t height)
     : window(window), renderer(renderer), width(width), height(height)
 {
+  if (window == nullptr || renderer == nullptr)
+  {
+    init();
+    this->window = gWindow;
+    this->renderer = gRenderer;
+  }
 }
 
 void Adafruit_GFX::drawRect(int16_t x, int16_t y, int16_t w, int16_t h,

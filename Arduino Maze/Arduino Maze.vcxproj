@@ -131,14 +131,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Adafruit_GFX.cpp" />
+    <ClCompile Include="Adafruit_ILI9341.cpp" />
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SDL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Adafruit_GFX.h" />
+    <ClInclude Include="Adafruit_ILI9341.h" />
+    <ClInclude Include="App.h" />
     <ClInclude Include="font.h" />
+    <ClInclude Include="SDL.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
