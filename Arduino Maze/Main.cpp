@@ -1,9 +1,10 @@
 /* Headers */
+#include "Adafruit_GFX.h"
 #include <SDL3\SDL_error.h>
 #include <SDL3\SDL_events.h>
 #include <SDL3\SDL_init.h>
+#include <SDL3\SDL_keycode.h>
 #include <SDL3\SDL_log.h>
-#include <SDL3\SDL_pixels.h>
 #include <SDL3\SDL_render.h>
 #include <SDL3\SDL_stdinc.h>
 #include <SDL3\SDL_video.h>
@@ -56,12 +57,17 @@ int main(int argc, char *args[])
     return 1;
   }
 
+  Adafruit_GFX gfx(gWindow, gRenderer, kScreenWidth, kScreenHeight);
+
   // The quit flag
   bool quit{ false };
 
   // The event data
   SDL_Event e;
   SDL_zero(e);
+
+  int x = 0;
+  int y = 0;
 
   // The main loop
   while (quit == false)
@@ -75,12 +81,59 @@ int main(int argc, char *args[])
         // End the main loop
         quit = true;
       }
+      else if (e.type == SDL_EVENT_KEY_DOWN)
+      {
+        // Set texture
+        if (e.key.key == SDLK_UP)
+        {
+          y -= 2;
+
+          if (y < 0)
+          {
+            y = 0;
+          }
+        }
+        else if (e.key.key == SDLK_DOWN)
+        {
+          y += 2;
+
+          if (y > kScreenHeight)
+          {
+            y = kScreenHeight - 1;
+          }
+        }
+        else if (e.key.key == SDLK_LEFT)
+        {
+          x -= 2;
+
+          if (x < 0)
+          {
+            x = 0;
+          }
+        }
+        else if (e.key.key == SDLK_RIGHT)
+        {
+          x += 2;
+
+          if (x > kScreenWidth)
+          {
+            x = kScreenWidth - 1;
+          }
+        }
+      }
     }
 
-    // Fill the background with color white
-    SDL_Color bgColor = { 0xFF, 0xFF, 0xFF, 0xFF };
-    SDL_SetRenderDrawColor(gRenderer, bgColor.r, bgColor.g, bgColor.b, 0xFF);
-    SDL_RenderClear(gRenderer);
+    gfx.fillScreen(0xFFFFFF);
+
+    gfx.setTextColor(0xFF00FF);
+    gfx.setTextSize(5);
+    gfx.setCursor(x, y);
+    gfx.println("Hello, lorem ipsum dolor it sum noir.");
+    gfx.println("World!");
+    gfx.drawChar(0, 0, 'A', 0xFFFFFF, 0x0, 5);
+    gfx.drawRect(50, 50, 100, 100, 0xFF0000);
+    gfx.fillRect(100, 100, 100, 100, 0x00FF00);
+    gfx.drawFastVLine(x, 0, kScreenHeight, 0x0000FF);
 
     // Update screen
     SDL_RenderPresent(gRenderer);
