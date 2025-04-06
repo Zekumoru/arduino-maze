@@ -12,7 +12,10 @@ Button getButton()
 {
     Button newButton = Button::NONE;
 
-    // TODO: impl
+    while(!newButton)
+    {
+        // TODO: impl
+    }
 
     return newButton;
 }
@@ -34,14 +37,15 @@ protected:
 
 // if the image has a pointer to data should be declared here globally to be used by mainmenu aswell
 
-static Player player(vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f));
+static Player player;
+static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
 
 int map[MAP_HEIGHT][MAP_WIDTH] =
     {
         {}
     };
 
-int unconveredMap[MAP_HEIGHT][MAP_WIDTH];
+int miniMap[MAP_HEIGHT][MAP_WIDTH];
 
 class Loading : public Scene
 {
@@ -118,7 +122,13 @@ public:
 
     virtual void render() override
     {
-        //reset discovered map
+        //render "GAME OVER" text
+
+        resetMiniMap();
+        player.pos = playerStartPos;
+        setMiniMap((int)player.pos.x, (int)player.pos.y);
+
+        //render "Press a button to try again..."
     }
 
     virtual GameState processInput() override
@@ -135,6 +145,7 @@ public:
             if (button)
             {
                 input = true;
+                newGamestate = GameState::MAIN_MENU;
             }
 
             // sleep??
@@ -144,7 +155,140 @@ public:
     }
 
 private:
-    vec2 m_TextPos;
+    vec2 m_gameOverTextPos;
+    vec2 m_ButtonPromptTextPos;
+
+    void resetMiniMap()
+    {
+        for (int y = 0; y < MAP_HEIGHT; y++)
+            for (int x = 0; x < MAP_WIDTH; x++)
+                miniMap[y][x] = 0;
+    }
+
+    void setMiniMap(int xPos, int yPos)
+    {
+        //player in the center (xpos, ypos)
+        miniMap[yPos][xPos] = 1;
+        //top row
+        miniMap[yPos - 1][xPos - 1] = 1;
+        miniMap[yPos - 1][xPos]     = 1;
+        miniMap[yPos - 1][xPos + 1] = 1;
+        //midlle row
+        miniMap[yPos][xPos - 1] = 1;
+        miniMap[yPos][xPos + 1] = 1;
+        //bottom row
+        miniMap[yPos + 1][xPos - 1] = 1;
+        miniMap[yPos + 1][xPos] = 1;
+        miniMap[yPos + 1][xPos + 1] = 1;
+    }
+};
+
+class MiniMap : public Scene
+{
+public:
+    MiniMap()
+    {
+        setMiniMap();
+    }
+
+    virtual void render() override
+    {
+        renderMiniMap();
+        renderPlayer();
+    }
+
+    virtual GameState processInput() override
+    {
+        GameState newGamestate = GameState::MAP_VIEW;
+
+        bool input = false;
+        // handle input
+
+        while (!input)
+        {
+            // read input
+            Button button = getButton();
+            if (button)
+            {
+                input = true;
+                newGamestate = GameState::GAME_VIEW;
+            }
+
+            // sleep??
+        }
+
+        return newGamestate;
+    }
+
+private:
+    void setMiniMap()
+    {
+        for (int y = 0; y < MAP_HEIGHT; y++)
+            for (int x = 0; x < MAP_WIDTH; x++)
+                miniMap[y][x] = 0;
+    }
+
+    void renderMiniMap()
+    {
+        int color = 0;
+        for(int y = 0; y < MAP_HEIGHT; y++)
+        {
+            for(int x = 0; x < MAP_WIDTH; x++)
+            {
+                if (!miniMap[x][y])
+                    continue;
+
+                switch(map[y][x])
+                {
+                case Tile::EMPTY:
+                    color = COL_GREY;
+                    break;
+                case Tile::WALL:
+                case Tile::WALL_BLUE:
+                    color = COL_WHITE;
+                    break;
+                case Tile::END:
+                    color = COL_BLUE;
+                    break;
+                default:
+                    color = COL_MAGENTA;
+                    break;
+                }
+
+                drawCell(x, y, color);
+            }
+        }
+    }
+
+    void drawCell(int x, int y, int color)
+    {
+        int xPos = x * CELL_SIZE + 1;
+        int yPos = y * CELL_SIZE + 1;
+
+        int width = CELL_SIZE - 2;
+        int height = CELL_SIZE - 2;
+
+        //drawcall for rect drawRect(xPos, yPos, width, heght, color);
+    }
+
+    void renderPlayer()
+    {
+        //CARE: NOT SURE IF IT'S RIGHT, need to test it
+        float posX = player.pos.x * CELL_SIZE;
+        float posY = player.pos.y * CELL_SIZE;
+
+
+
+        //drawcall: drawRect((int)posX - 1, (int)posX - 1, 3, 3, COL_GREEN);
+        renderPlayerDir((int)posX, (int)posY);
+    }
+
+    void renderPlayerDir(int x, int y)
+    {
+        int posX = x + player.dir.x * 2;
+        int posY = y + player.dir.y * 2;
+        //drawcall: drawPixel(posX, posY, COL_GREEN)
+    }
 };
 
 class MazeGame : public Scene
@@ -152,7 +296,9 @@ class MazeGame : public Scene
 public:
     MazeGame()
     {
-        // set all values to 0
+        // set all minimap values to 0?
+        player.pos = playerStartPos;
+        setMiniMap(player.pos.x, player.pos.y);
     }
 
     virtual void render() override
@@ -188,8 +334,12 @@ public:
                 player.movePlayer(1.0f);
                 input = true;
                 if (map[(int)player.pos.y][(int)player.pos.x] == END)
+                {
                     newState = GameState::GAME_OVER;
+                    break;
+                }
 
+                discoverMap((int)player.pos.x, (int)player.pos.y);
                 break;
 
             case KEY_LEFT:
@@ -331,6 +481,28 @@ private:
     {
         int lineStartY = (SCREEN_HEIGHT - lenght) / 2;
         // drawcall line
+    }
+
+    void discoverMap(int xPos, int yPos)
+    {
+        //player in the center (xpos, ypos)
+        //top row
+        miniMap[yPos - 1][xPos - 1] = 1;
+        miniMap[yPos - 1][xPos]     = 1;
+        miniMap[yPos - 1][xPos + 1] = 1;
+        //midlle row
+        miniMap[yPos][xPos - 1] = 1;
+        miniMap[yPos][xPos + 1] = 1;
+        //bottom row
+        miniMap[yPos + 1][xPos - 1] = 1;
+        miniMap[yPos + 1][xPos] = 1;
+        miniMap[yPos + 1][xPos + 1] = 1;
+    }
+
+    void setMiniMap(int xPos, int yPos)
+    {
+        miniMap[yPos][xPos] = 1;
+        discoverMap(yPos, xPos);
     }
 };
 

@@ -9,6 +9,14 @@ extern float sinLT[];
 class Player
 {
 public:
+
+    Player()
+    {
+        m_fov = 75.0f;
+        dir = vec2(0.0f, 1.0f);
+        cameraPlane = vec2(m_fov, 0.0f);
+    }
+
     Player(vec2 &&_pos)
     {
         pos = _pos;
@@ -31,7 +39,7 @@ public:
         dir.x = cosLT[m_angle];
         dir.y = sinLT[m_angle];
 
-        rotateCamera(m_angle);
+        rotateCamera();
     }
 
     vec2 pos;
@@ -43,13 +51,12 @@ private:
 
     float m_fov; // need to choose witch one to use
 
-    void rotateCamera(int _angle)
+    void rotateCamera()
     {
-        int angle = _angle + 90;
-        angle %= 360;
+        int angle = m_angle - 90;
 
-        cameraPlane.x = cameraPlane.x * cosLT[_angle] - sinLT[_angle] * cameraPlane.y;
-        cameraPlane.y = cameraPlane.x * sinLT[_angle] + cosLT[_angle] * cameraPlane.y;
+        cameraPlane.x = cameraPlane.x * cosLT[angle] - sinLT[angle] * cameraPlane.y;
+        cameraPlane.y = cameraPlane.x * sinLT[angle] + cosLT[angle] * cameraPlane.y;
     }
 };
 
