@@ -38,7 +38,8 @@ static Player player(vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f));
 
 int map[MAP_HEIGHT][MAP_WIDTH] =
     {
-        {}};
+        {}
+    };
 
 int unconveredMap[MAP_HEIGHT][MAP_WIDTH];
 
@@ -117,6 +118,7 @@ public:
 
     virtual void render() override
     {
+        //reset discovered map
     }
 
     virtual GameState processInput() override
@@ -176,6 +178,13 @@ public:
             case NONE:
                 break;
             case KEY_UP:
+                vec2 predicetdPos = player.pos + player.dir;
+
+                if (predicetdPos.x >= MAP_WIDTH || predicetdPos.y >= MAP_HEIGHT)
+                    break;
+                if (map[(int)predicetdPos.y][(int)predicetdPos.x] == Tile::WALL || map[(int)predicetdPos.y][(int)predicetdPos.x] == Tile::WALL_BLUE)
+                    break;
+
                 player.movePlayer(1.0f);
                 input = true;
                 if (map[(int)player.pos.y][(int)player.pos.x] == END)
@@ -197,14 +206,6 @@ public:
                 newState = GameState::MAP_VIEW;
                 input = true;
                 break;
-            }
-
-            // maybe this should be done in the gameover class
-            if (newState == GameState::GAME_OVER)
-            {
-                // reset discovered map
-                // reset player pos
-                // reset player dir
             }
         }
 
@@ -231,17 +232,104 @@ private:
 
             deltaDist.x = (rayDir.x == 0) ? 1e30 : std::abs(1 / rayDir.x);
             deltaDist.y = (rayDir.y == 0) ? 1e30 : std::abs(1 / rayDir.y);
+
+            int stepY;
+            int stepX;
+
+            bool hit = false;
+            int side;
+
+            if (rayDir.x < 0)
+            {
+                stepX = -1;
+                sideDist.x = (player.pos.x - mapX) * deltaDist.x;
+            }
+            else
+            {
+                stepX = 1;
+                sideDist.x = (mapX + 1.0f - player.pos.x) * deltaDist.x;
+            }
+
+            if (rayDir.y < 0)
+            {
+                stepY = -1;
+                sideDist.y = (player.pos.y - mapY) * deltaDist.y;
+            }
+            else
+            {
+                stepY = 1;
+                sideDist.y = (mapY + 1.0f - player.pos.y) * deltaDist.y;
+            }
+
+            while (!hit)
+            {
+                if (sideDist.x < sideDist.y)
+                {
+                    sideDist.x += deltaDist.x;
+                    mapX += stepX;
+                    side = 0;
+                }
+                else
+                {
+                    sideDist.y += deltaDist.y;
+                    mapY += stepY;
+                    side = 1;
+                }
+
+                if (map[mapY][mapX] != Tile::EMPTY && map[mapY][mapX] != Tile::END)
+                {
+                    hit = true;
+                }
+            }
+
+            if (!side)
+            {
+                perpDist = sideDist.x - deltaDist.x;
+            }
+            else
+            {
+                perpDist = sideDist.y - deltaDist.y;
+            }
+
+            int lineHeight = (int)(SCREEN_HEIGHT / perpDist);
+
+            if (lineHeight > MAX_LINE_LEN)
+            {
+                lineHeight = MAX_LINE_LEN;
+            }
+
+            int color = 0;
+            switch(map[mapY][mapX])
+            {
+            case 1:
+                if (side)
+                {
+                    color = COL_YELLOW - 8;
+                }
+                else
+                {
+                    color = COL_YELLOW;
+                }
+                break;
+            case 2:
+                color = COL_BLUE;
+                break;
+            default:
+                break;
+            }
+
+            drawVertLine(x, lineHeight, color);
         }
     }
-
+    
     void drawCeilFloor()
     {
-        // draw black rect top half
-        // draw grey rect bottom half
+        //TODO drawcall grey rect bottom half
     }
-
-    void drawVertLine(int lenght, int color)
+    
+    void drawVertLine(int x, int lenght, int color)
     {
+        int lineStartY = (SCREEN_HEIGHT - lenght) / 2;
         // drawcall line
     }
 };
