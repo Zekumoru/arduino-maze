@@ -1,3 +1,9 @@
+/**
+ * @brief contains scenes and map data, also function for map manipulatioins and player instance
+ * 
+ */
+
+
 #ifndef SCENES_HPP
 #define SCENES_HPP
 
@@ -8,6 +14,45 @@
 #include "player.hpp"
 #include "defines.hpp"
 
+//mapdata
+//!!! Will probably opt for a one dim array (map[HEIGHT*WIDTH] for better access(?) to memory)
+int map[MAP_HEIGHT][MAP_WIDTH] =
+    {
+        {}
+    };
+
+int miniMap[MAP_HEIGHT][MAP_WIDTH];
+
+//minimap utils
+void resetMiniMap()
+{
+    for (int y = 0; y < MAP_HEIGHT; y++)
+        for (int x = 0; x < MAP_WIDTH; x++)
+            miniMap[y][x] = 0;
+}
+
+void setMiniMap(int xPos, int yPos)
+{
+    miniMap[yPos][xPos] = 1;
+    unlockMiniMapArea(yPos, xPos);
+}
+
+void unlockMiniMapArea(int xPos, int yPos)
+{
+    //top row
+    miniMap[yPos - 1][xPos - 1] = 1;
+    miniMap[yPos - 1][xPos]     = 1;
+    miniMap[yPos - 1][xPos + 1] = 1;
+    //midlle row
+    miniMap[yPos][xPos - 1] = 1;
+    miniMap[yPos][xPos + 1] = 1;
+    //bottom row
+    miniMap[yPos + 1][xPos - 1] = 1;
+    miniMap[yPos + 1][xPos] = 1;
+    miniMap[yPos + 1][xPos + 1] = 1;
+}
+
+//button utility, should make arduino calls
 Button getButton()
 {
     Button newButton = Button::NONE;
@@ -20,6 +65,11 @@ Button getButton()
     return newButton;
 }
 
+
+//player instance
+static Player player;
+static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
+
 class Scene
 {
 public:
@@ -31,21 +81,10 @@ public:
 protected:
     void clearScreen()
     {
-        // TODO : call to clear pixel buffer with black
+        //call to clear pixel buffer with black
+        //fillScreen(COL_BLACK);
     }
 };
-
-// if the image has a pointer to data should be declared here globally to be used by mainmenu aswell
-
-static Player player;
-static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
-
-int map[MAP_HEIGHT][MAP_WIDTH] =
-    {
-        {}
-    };
-
-int miniMap[MAP_HEIGHT][MAP_WIDTH];
 
 class Loading : public Scene
 {
@@ -71,6 +110,7 @@ public:
 private:
     // imageData Data; ???
     vec2 textPos;
+    char* loadingText {"Loading..."}; //what? need to review string init in c LOL
 };
 
 class MainMenu : public Scene
@@ -112,6 +152,7 @@ private:
     vec2 m_TextPos;
 };
 
+
 class GameOver : public Scene
 {
 public:
@@ -136,7 +177,6 @@ public:
         GameState newGamestate = GameState::GAME_OVER;
 
         bool input = false;
-        // handle input
 
         while (!input)
         {
@@ -157,30 +197,6 @@ public:
 private:
     vec2 m_gameOverTextPos;
     vec2 m_ButtonPromptTextPos;
-
-    void resetMiniMap()
-    {
-        for (int y = 0; y < MAP_HEIGHT; y++)
-            for (int x = 0; x < MAP_WIDTH; x++)
-                miniMap[y][x] = 0;
-    }
-
-    void setMiniMap(int xPos, int yPos)
-    {
-        //player in the center (xpos, ypos)
-        miniMap[yPos][xPos] = 1;
-        //top row
-        miniMap[yPos - 1][xPos - 1] = 1;
-        miniMap[yPos - 1][xPos]     = 1;
-        miniMap[yPos - 1][xPos + 1] = 1;
-        //midlle row
-        miniMap[yPos][xPos - 1] = 1;
-        miniMap[yPos][xPos + 1] = 1;
-        //bottom row
-        miniMap[yPos + 1][xPos - 1] = 1;
-        miniMap[yPos + 1][xPos] = 1;
-        miniMap[yPos + 1][xPos + 1] = 1;
-    }
 };
 
 class MiniMap : public Scene
@@ -188,7 +204,7 @@ class MiniMap : public Scene
 public:
     MiniMap()
     {
-        setMiniMap();
+        resetMiniMap();
     }
 
     virtual void render() override
@@ -202,7 +218,6 @@ public:
         GameState newGamestate = GameState::MAP_VIEW;
 
         bool input = false;
-        // handle input
 
         while (!input)
         {
@@ -221,12 +236,7 @@ public:
     }
 
 private:
-    void setMiniMap()
-    {
-        for (int y = 0; y < MAP_HEIGHT; y++)
-            for (int x = 0; x < MAP_WIDTH; x++)
-                miniMap[y][x] = 0;
-    }
+    int playerSizeMiniMap = 4; //still not sure about this, i wanted to use an odd lenght square, but cell size is even FML
 
     void renderMiniMap()
     {
@@ -265,10 +275,9 @@ private:
         int xPos = x * CELL_SIZE + 1;
         int yPos = y * CELL_SIZE + 1;
 
-        int width = CELL_SIZE - 2;
-        int height = CELL_SIZE - 2;
+        int sideLenght = CELL_SIZE - 2;
 
-        //drawcall for rect drawRect(xPos, yPos, width, heght, color);
+        //drawcall for rect drawRect(xPos, yPos, sideLenght, sideLenght, color);
     }
 
     void renderPlayer()
@@ -277,17 +286,19 @@ private:
         float posX = player.pos.x * CELL_SIZE;
         float posY = player.pos.y * CELL_SIZE;
 
-
-
-        //drawcall: drawRect((int)posX - 1, (int)posX - 1, 3, 3, COL_GREEN);
+        //drawcall: 
+        //drawRect((int)posX - 1, (int)posX - 1, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN);
         renderPlayerDir((int)posX, (int)posY);
     }
 
     void renderPlayerDir(int x, int y)
     {
-        int posX = x + player.dir.x * 2;
-        int posY = y + player.dir.y * 2;
-        //drawcall: drawPixel(posX, posY, COL_GREEN)
+
+        //TODO: TO REVIEW (even cellsize cant center player properly, i've to figure out a way to show direction of view)
+        //this system was thought for 1 pixel next to the player in the direction he's looking
+        //not working if the player size in minimap is even, need odd to work
+        int posX = x + player.dir.x * 3;
+        int posY = y + player.dir.y * 3;
     }
 };
 
@@ -304,7 +315,7 @@ public:
     virtual void render() override
     {
         clearScreen();
-        drawCeilFloor();
+        drawFloor();
         rayCasting();
     }
 
@@ -317,13 +328,14 @@ public:
 
         while (!input)
         {
-            // TODO: get input
+            keyPressed = getButton();
 
             switch (keyPressed)
             {
             case NONE:
                 break;
             case KEY_UP:
+                input = true;
                 vec2 predicetdPos = player.pos + player.dir;
 
                 if (predicetdPos.x >= MAP_WIDTH || predicetdPos.y >= MAP_HEIGHT)
@@ -332,29 +344,28 @@ public:
                     break;
 
                 player.movePlayer(1.0f);
-                input = true;
                 if (map[(int)player.pos.y][(int)player.pos.x] == END)
                 {
                     newState = GameState::GAME_OVER;
                     break;
                 }
 
-                discoverMap((int)player.pos.x, (int)player.pos.y);
+                unlockMiniMapArea((int)player.pos.x, (int)player.pos.y);
                 break;
 
             case KEY_LEFT:
-                player.rotate(-90);
                 input = true;
+                player.rotate(-90);
                 break;
 
             case KEY_RIGHT:
-                player.rotate(90);
                 input = true;
+                player.rotate(90);
                 break;
 
             case KEY_OPTION:
-                newState = GameState::MAP_VIEW;
                 input = true;
+                newState = GameState::MAP_VIEW;
                 break;
             }
         }
@@ -453,13 +464,10 @@ private:
             {
             case 1:
                 if (side)
-                {
                     color = COL_YELLOW - 8;
-                }
                 else
-                {
                     color = COL_YELLOW;
-                }
+
                 break;
             case 2:
                 color = COL_BLUE;
@@ -472,38 +480,18 @@ private:
         }
     }
     
-    void drawCeilFloor()
+    void drawFloor()
     {
-        //TODO drawcall grey rect bottom half
+        //drawcall grey rect bottom half
+        //drawRect(0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2);
     }
     
     void drawVertLine(int x, int lenght, int color)
     {
         int lineStartY = (SCREEN_HEIGHT - lenght) / 2;
-        // drawcall line
-    }
-
-    void discoverMap(int xPos, int yPos)
-    {
-        //player in the center (xpos, ypos)
-        //top row
-        miniMap[yPos - 1][xPos - 1] = 1;
-        miniMap[yPos - 1][xPos]     = 1;
-        miniMap[yPos - 1][xPos + 1] = 1;
-        //midlle row
-        miniMap[yPos][xPos - 1] = 1;
-        miniMap[yPos][xPos + 1] = 1;
-        //bottom row
-        miniMap[yPos + 1][xPos - 1] = 1;
-        miniMap[yPos + 1][xPos] = 1;
-        miniMap[yPos + 1][xPos + 1] = 1;
-    }
-
-    void setMiniMap(int xPos, int yPos)
-    {
-        miniMap[yPos][xPos] = 1;
-        discoverMap(yPos, xPos);
-    }
+        //drawcall line draw 
+        //drawFastVLine(x, lineStartY, lenght, color)
+    }    
 };
 
 #endif
