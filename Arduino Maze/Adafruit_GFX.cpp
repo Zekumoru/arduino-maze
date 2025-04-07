@@ -20,6 +20,12 @@ Adafruit_GFX::Adafruit_GFX(SDL_Window *window, SDL_Renderer *renderer,
   }
 }
 
+void Adafruit_GFX::drawPixel(int16_t x, int16_t y, uint16_t color)
+{
+  setColor(color);
+  SDL_RenderPoint(renderer, static_cast<float>(x), static_cast<float>(y));
+}
+
 void Adafruit_GFX::drawRect(int16_t x, int16_t y, int16_t w, int16_t h,
                             uint16_t color)
 {

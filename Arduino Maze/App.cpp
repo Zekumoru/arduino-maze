@@ -5,6 +5,7 @@
 // Arduino Related Includes
 #include "Adafruit_ILI9341.h"
 #include <cmath>
+#include <cstdint>
 
 #define TFT_DC 9
 #define TFT_CS 10
@@ -55,4 +56,13 @@ void loop()
   tft.setTextColor(ILI9341_BLACK);
   tft.setTextSize(3);
   tft.println("Hello Roby!\nThis is a simulation!! :D");
+
+  // Test drawPixel
+  for (int16_t x = 0; x < 5; x++)
+  {
+    for (int16_t y = 0; y < 5; y++)
+    {
+      tft.drawPixel(100 + x, 200 + y, ILI9341_BLACK);
+    }
+  }
 }
