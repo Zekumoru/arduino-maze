@@ -124,7 +124,9 @@ void Adafruit_GFX::print(const char *str)
     else
     {
       // Check if we need to wrap
-      if (cursorX + (CHAR_WIDTH * textSize) > width)
+      // `width + (CHAR_WIDTH * textSize)` so that the
+      // first character doesn't get wrapped.
+      if (cursorX + (CHAR_WIDTH * textSize) > width + (CHAR_WIDTH * textSize))
       {
         cursorY += CHAR_HEIGHT * textSize;
         cursorX = defaultCursorX;
