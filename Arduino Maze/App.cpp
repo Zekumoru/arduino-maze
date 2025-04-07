@@ -27,23 +27,44 @@ void loop()
   Button pressed = getInput();
   float deltaTime = getDeltaTime();
 
-  if (pressed == KEY_LEFT)
+  switch (pressed)
+  {
+  case KEY_LEFT:
   {
     posX -= speed * deltaTime;
-
     if (posX < 0)
     {
       posX = 0;
     }
+    break;
   }
-  if (pressed == KEY_RIGHT)
+  case KEY_RIGHT:
   {
     posX += speed * deltaTime;
-
     if (posX > SCREEN_WIDTH - 1)
     {
       posX = SCREEN_WIDTH - 1;
     }
+    break;
+  }
+  case KEY_UP:
+  {
+    posY -= speed * deltaTime;
+    if (posY < 0)
+    {
+      posY = 0;
+    }
+    break;
+  }
+  case KEY_OPTION:
+  {
+    posY += speed * deltaTime;
+    if (posY > SCREEN_HEIGHT - 1)
+    {
+      posY = SCREEN_HEIGHT - 1;
+    }
+    break;
+  }
   }
 
   // Convert to integers for rendering
@@ -62,7 +83,7 @@ void loop()
   {
     for (int16_t y = 0; y < 5; y++)
     {
-      tft.drawPixel(100 + x, 200 + y, ILI9341_BLACK);
+      tft.drawPixel(100 + x + posX, 200 + y + posY, ILI9341_BLACK);
     }
   }
 }
