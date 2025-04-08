@@ -14,7 +14,7 @@ public:
     {
         m_fov = 75.0f;
         dir = vec2(0.0f, 1.0f);
-        cameraPlane = vec2(m_fov, 0.0f);
+        cameraPlane = vec2(m_fov / 100.0f, 0.0f);
     }
 
     Player(vec2 &&_pos)
@@ -22,7 +22,7 @@ public:
         pos = _pos;
         m_fov = 75.0f;
         dir = vec2(0.0f, 1.0f);
-        cameraPlane = vec2(m_fov, 0.0f);
+        cameraPlane = vec2(m_fov / 100.0f, 0.0f);
     }
 
     void movePlayer(float distance)
