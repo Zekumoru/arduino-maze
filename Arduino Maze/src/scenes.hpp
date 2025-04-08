@@ -562,7 +562,7 @@ private:
   void drawFloor()
   {
     // drawcall grey rect bottom half
-    tft.drawRect(0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2,
+    tft.fillRect(0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2,
                  COL_GREY);
   }
 

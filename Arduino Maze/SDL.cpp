@@ -19,6 +19,8 @@ const int16_t kScreenHeight = 240;
 SDL_Window *gWindow{ nullptr };
 SDL_Renderer *gRenderer{ nullptr };
 
+extern bool gQuit;
+
 ArduinoSDLError::ArduinoSDLError(const std::string &msg) : message(msg) {}
 
 const char *ArduinoSDLError::what() const noexcept { return message.c_str(); }
@@ -61,6 +63,17 @@ void close()
 
 Button getButtonSDL()
 {
+  SDL_Event e;
+  SDL_zero(e);
+
+  while (SDL_PollEvent(&e))
+  {
+    if (e.type == SDL_EVENT_QUIT)
+    {
+      gQuit = true;
+    }
+  }
+
   const bool *keystate = SDL_GetKeyboardState(nullptr);
 
   if (keystate[SDL_SCANCODE_LEFT])

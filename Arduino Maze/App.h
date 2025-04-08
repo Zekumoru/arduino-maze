@@ -4,6 +4,8 @@
 
 extern Adafruit_ILI9341 tft;
 
+extern bool gQuit;
+
 void setup();
 
 void loop();

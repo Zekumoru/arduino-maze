@@ -1,6 +1,7 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#include "../SDL.h"
 #include "vec2.hpp"
 
 extern float cosLT[];
@@ -28,8 +29,9 @@ public:
 
   void movePlayer(float distance)
   {
-    pos.x += distance * dir.x;
-    pos.y += distance * dir.y;
+    float deltaTime = 0.0007f;
+    pos.x += distance * dir.x * deltaTime;
+    pos.y += distance * dir.y * deltaTime;
   };
 
   void rotate(int angle)

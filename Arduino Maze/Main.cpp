@@ -9,26 +9,16 @@
 extern SDL_Renderer *gRenderer;
 extern SDL_Event gEvent;
 
+bool gQuit{ false };
+
 int main(int argc, char *args[])
 {
   init();
 
-  bool quit{ false };
-  SDL_Event e;
-  SDL_zero(e);
-
   setup();
 
-  while (quit == false)
+  while (!gQuit)
   {
-    while (SDL_PollEvent(&e))
-    {
-      if (e.type == SDL_EVENT_QUIT)
-      {
-        quit = true;
-      }
-    }
-
     loop();
 
     SDL_RenderPresent(gRenderer);

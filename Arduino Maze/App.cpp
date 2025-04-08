@@ -6,6 +6,7 @@
 #include "src/defines.hpp"
 #include "src/scenes.hpp"
 #include <SDL3\SDL_log.h>
+#include <SDL3\SDL_render.h>
 #include <SDL3\SDL_timer.h>
 #include <cmath>
 #include <cstdint>
@@ -28,6 +29,7 @@ void setup()
   scenes[static_cast<int>(GameState::LOADING)] = new Loading();
   state = GameState::LOADING;
   scenes[static_cast<int>(state)]->render();
+  SDL_RenderPresent(gRenderer);
   SDL_Delay(3000);
 
   scenes[static_cast<int>(GameState::MAIN_MENU)] = new MainMenu();
