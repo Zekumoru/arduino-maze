@@ -531,7 +531,7 @@ private:
         break;
       }
 
-      drawVertLine(SCREEN_WIDTH - x, lineHeight, color);
+      drawVertLine(SCREEN_WIDTH - 1 - x, lineHeight, color);
     }
   }
 
