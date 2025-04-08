@@ -34,7 +34,7 @@ public:
 
   void movePlayer(float distance)
   {
-    float deltaTime = 0.0007f;
+    float deltaTime = 0.07f;
     pos.x += distance * dir.x * deltaTime;
     pos.y += distance * dir.y * deltaTime;
   };
@@ -74,9 +74,8 @@ private:
     if (angle < 0)
       angle = 360 + angle;
 
-
     cameraPlane.x = m_baseCameraPlane.x * cosLT[(int)angle] -
-                    sinLT[(int)angle] * m_baseCameraPlane.y; 
+                    sinLT[(int)angle] * m_baseCameraPlane.y;
     cameraPlane.y = m_baseCameraPlane.x * sinLT[(int)angle] +
                     cosLT[(int)angle] * m_baseCameraPlane.y;
   }

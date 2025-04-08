@@ -61,6 +61,28 @@ void close()
   SDL_Quit();
 }
 
+void putButtonsSDL(bool (&buttonsState)[5])
+{
+  SDL_Event e;
+  SDL_zero(e);
+
+  while (SDL_PollEvent(&e))
+  {
+    if (e.type == SDL_EVENT_QUIT)
+    {
+      gQuit = true;
+    }
+  }
+
+  const bool *keystate = SDL_GetKeyboardState(nullptr);
+
+  buttonsState[NONE] = false;
+  buttonsState[KEY_LEFT] = keystate[SDL_SCANCODE_LEFT];
+  buttonsState[KEY_RIGHT] = keystate[SDL_SCANCODE_RIGHT];
+  buttonsState[KEY_UP] = keystate[SDL_SCANCODE_UP];
+  buttonsState[KEY_OPTION] = keystate[SDL_SCANCODE_SPACE];
+}
+
 Button getButtonSDL()
 {
   SDL_Event e;
