@@ -1,5 +1,5 @@
 #include "SDL.h"
-#include "defines.hpp"
+#include "src/defines.hpp"
 #include <SDL3\SDL_error.h>
 #include <SDL3\SDL_events.h>
 #include <SDL3\SDL_init.h>
@@ -59,7 +59,7 @@ void close()
   SDL_Quit();
 }
 
-Button getInput()
+Button getButtonSDL()
 {
   const bool *keystate = SDL_GetKeyboardState(nullptr);
 

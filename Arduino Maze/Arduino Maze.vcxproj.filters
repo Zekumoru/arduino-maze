@@ -30,6 +30,9 @@
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vec2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include=".clang-format" />
@@ -50,7 +53,19 @@
     <ClInclude Include="App.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="defines.hpp">
+    <ClInclude Include="src\defines.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\player.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\scenes.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\titleScreen.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\vec2.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

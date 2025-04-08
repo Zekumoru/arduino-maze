@@ -32,7 +32,7 @@ void Adafruit_GFX::drawRect(int16_t x, int16_t y, int16_t w, int16_t h,
   SDL_FRect rect = { static_cast<float>(x), static_cast<float>(y),
                      static_cast<float>(w), static_cast<float>(h) };
   setColor(color);
-  SDL_RenderRect(renderer, &rect);
+  SDL_RenderFillRect(renderer, &rect);
 }
 
 void Adafruit_GFX::drawChar(int16_t x, int16_t y, unsigned char c,

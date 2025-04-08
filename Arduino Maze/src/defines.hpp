@@ -19,7 +19,7 @@
 // be a square, used to render the minimap
 #define CELL_SIZE 10
 
-#define COL_BLACK 0x000F
+#define COL_BLACK 0x0000
 #define COL_GREY 0x888F
 #define COL_WHITE 0xFFFF
 #define COL_RED 0xF00F
