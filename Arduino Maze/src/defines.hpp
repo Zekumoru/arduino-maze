@@ -20,14 +20,15 @@
 #define CELL_SIZE 10
 
 #define COL_BLACK 0x0000
-#define COL_GREY 0x888F
+#define COL_GREY 0x7BEF
 #define COL_WHITE 0xFFFF
-#define COL_RED 0xF00F
-#define COL_GREEN 0x0F0F
-#define COL_BLUE 0x00FF
-#define COL_YELLOW 0xFF0F
-#define COL_MAGENTA 0xF0FF
-#define COL_CYAN 0x0FFF
+#define COL_RED 0xF800
+#define COL_GREEN 0x07E0
+#define COL_BLUE 0x001F
+#define COL_YELLOW 0xFFE0
+#define COL_ORANGE 0xFD20
+#define COL_MAGENTA 0xF81F
+#define COL_CYAN 0x07FF
 
 #define PI 3.14159265359
 
