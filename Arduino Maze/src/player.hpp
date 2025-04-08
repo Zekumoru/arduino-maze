@@ -37,10 +37,9 @@ public:
   void rotate(int angle)
   {
     m_angle += angle;
-    m_angle %= 360;
 
-    dir.x = cosLT[m_angle];
-    dir.y = sinLT[m_angle];
+    dir.x = cosLT[m_angle % 360];
+    dir.y = sinLT[m_angle % 360];
 
     rotateCamera();
   }
@@ -58,8 +57,9 @@ private:
   {
     int angle = m_angle - 90;
 
-    cameraPlane.x = cameraPlane.x * cosLT[angle] - sinLT[angle] * cameraPlane.y;
-    cameraPlane.y = cameraPlane.x * sinLT[angle] + cosLT[angle] * cameraPlane.y;
+    // cameraPlane.x = cameraPlane.x * cosLT[angle] - sinLT[angle] *
+    // cameraPlane.y; cameraPlane.y = cameraPlane.x * sinLT[angle] +
+    // cosLT[angle] * cameraPlane.y;
   }
 };
 

@@ -429,13 +429,13 @@ public:
       case KEY_LEFT:
       {
         input = true;
-        player.rotate(-90);
+        player.rotate(-1);
         break;
       }
       case KEY_RIGHT:
       {
         input = true;
-        player.rotate(90);
+        player.rotate(1);
         break;
       }
       case KEY_OPTION:

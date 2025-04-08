@@ -39,7 +39,7 @@ void setup()
 
   setupButtons();
 
-  // initTables();
+  initTables();
 
   state = GameState::MAIN_MENU;
 }
