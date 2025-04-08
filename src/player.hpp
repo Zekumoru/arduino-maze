@@ -13,16 +13,20 @@ public:
     Player()
     {
         m_fov = 75.0f;
+        m_baseDir = vec2(0.0f, 1.0f);
         dir = vec2(0.0f, 1.0f);
-        cameraPlane = vec2(m_fov / 100.0f, 0.0f);
+        m_baseCameraPlane = vec2(m_fov / 100.0f, 0.0f);
+        cameraPlane = m_baseCameraPlane;
     }
 
     Player(vec2 &&_pos)
     {
         pos = _pos;
         m_fov = 75.0f;
+        m_baseDir = vec2(0.0f, 1.0f);
         dir = vec2(0.0f, 1.0f);
-        cameraPlane = vec2(m_fov / 100.0f, 0.0f);
+        m_baseCameraPlane = vec2(m_fov / 100.0f, 0.0f);
+        cameraPlane = m_baseCameraPlane;
     }
 
     void movePlayer(float distance)
@@ -47,6 +51,8 @@ public:
     vec2 cameraPlane;
 
 private:
+    vec2 m_baseDir;
+    vec2 m_baseCameraPlane;
     int m_angle;
 
     float m_fov; // need to choose witch one to use
