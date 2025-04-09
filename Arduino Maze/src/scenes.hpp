@@ -387,20 +387,8 @@ public:
         vec2 predicetdPos = player.pos + player.dir;
 
         if (!(predicetdPos.x >= MAP_WIDTH || predicetdPos.y >= MAP_HEIGHT))
-        {
-            if (!(map[(int)predicetdPos.y][(int)player.pos.x] == Tile::WALL ||
-                map[(int)predicetdPos.y][(int)player.pos.x] ==
-                Tile::WALL_BLUE))
-            {
-              player.pos.y += player.dir.y * deltaTime;
-            }
-            if (!(map[(int)player.pos.y][(int)predicetdPos.x] == Tile::WALL ||
-                  map[(int)player.pos.y][(int)predicetdPos.x] ==
-                  Tile::WALL_BLUE))
-            {
-              player.pos.x += player.dir.x * deltaTime;
-            }
-
+        {            
+          movePlayer(predicetdPos, deltaTime);
           //player.movePlayer(1.0f, deltaTime);
           if (map[(int)player.pos.y][(int)player.pos.x] == END)
           {
@@ -438,6 +426,20 @@ public:
   }
 
 private:
+
+    void movePlayer(vec2& nextPos, float deltaTime)
+    {
+      if (!(map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
+            map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL_BLUE))
+      {
+        player.pos.y += player.dir.y * deltaTime;
+      }
+      if (!(map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL ||
+            map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL_BLUE))
+      {
+        player.pos.x += player.dir.x * deltaTime;
+      }
+    }
   void rayCasting()
   {
     vec2 rayDir;
