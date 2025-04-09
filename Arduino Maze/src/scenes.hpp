@@ -432,12 +432,13 @@ private:
       if (!(map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
             map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL_BLUE))
       {
-        player.pos.y += player.dir.y * deltaTime;
+        player.pos.y += player.dir.y * deltaTime * player.moveSpeed;
       }
       if (!(map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL ||
             map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL_BLUE))
       {
-        player.pos.x += player.dir.x * deltaTime;
+        player.pos.x += player.dir.x * deltaTime * player.moveSpeed;
+        ;
       }
     }
   void rayCasting()

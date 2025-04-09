@@ -14,7 +14,6 @@ public:
   Player()
   {
     m_angle = 90;
-    m_fov = 65.0f;
     m_baseDir = vec2(cosLT[(int)m_angle], sinLT[(int)m_angle]);
     dir = vec2(0.0f, 1.0f);
     m_baseCameraPlane = vec2(m_fov / 100.0f, 0.0f);
@@ -25,7 +24,6 @@ public:
   {
     pos = _pos;
     m_angle = 90;
-    m_fov = 65.0f;
     m_baseDir = vec2(cosLT[(int)m_angle], sinLT[(int)m_angle]);
     dir = vec2(0.0f, 1.0f);
     m_baseCameraPlane = vec2(m_fov / 100.0f, 0.0f);
@@ -41,7 +39,7 @@ public:
 
   void rotate(float angle, float deltaTime)
   {
-    m_angle += (angle * deltaTime);
+    m_angle += (angle * rotateSpeed * deltaTime);
 
     if (m_angle >= 360)
       m_angle = m_angle - 360;
@@ -57,13 +55,15 @@ public:
   vec2 pos;
   vec2 dir;
   vec2 cameraPlane;
+  float moveSpeed = 1.5f;
+  float rotateSpeed = 1.5f;
 
 private:
   float m_angle;
   vec2 m_baseDir;
   vec2 m_baseCameraPlane;
 
-  float m_fov;
+  float m_fov = 65.0f;
 
   void rotateCamera()
   {
