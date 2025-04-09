@@ -427,20 +427,21 @@ public:
 
 private:
 
-    void movePlayer(vec2& nextPos, float deltaTime)
+  void movePlayer(vec2 &nextPos, float deltaTime)
+  {
+    if (!(map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
+          map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL_BLUE))
     {
-      if (!(map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
-            map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL_BLUE))
-      {
-        player.pos.y += player.dir.y * deltaTime * player.moveSpeed;
-      }
-      if (!(map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL ||
-            map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL_BLUE))
-      {
-        player.pos.x += player.dir.x * deltaTime * player.moveSpeed;
-        ;
-      }
+      player.moveY(deltaTime);
     }
+
+    if (!(map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL ||
+          map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL_BLUE))
+    {
+      player.moveX(deltaTime);
+    }
+  }
+
   void rayCasting()
   {
     vec2 rayDir;

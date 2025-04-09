@@ -1,7 +1,6 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
-#include "../SDL.h"
 #include "vec2.hpp"
 #include <cmath>
 
@@ -30,11 +29,30 @@ public:
     cameraPlane = m_baseCameraPlane;
   }
 
-  void movePlayer(float distance, float deltaTime)
+  Player(const vec2& _pos)
   {
-    //float deltaTime = 0.07f;
-    pos.x += distance * dir.x * deltaTime;
-    pos.y += distance * dir.y * deltaTime;
+    pos = _pos;
+    m_angle = 90;
+    m_baseDir = vec2(cosLT[(int)m_angle], sinLT[(int)m_angle]);
+    dir = vec2(0.0f, 1.0f);
+    m_baseCameraPlane = vec2(m_fov / 100.0f, 0.0f);
+    cameraPlane = m_baseCameraPlane;
+  }
+
+  //needs refactor: moveX and moveY
+  void movePlayer(float deltaTime)
+  { 
+      pos = pos + dir * moveSpeed * deltaTime;
+  };
+
+  void moveX(float deltaTime)
+  {
+    pos.x += moveSpeed * dir.x * deltaTime;
+  };
+
+  void moveY(float deltaTime)
+  {
+    pos.y += moveSpeed * dir.y * deltaTime;
   };
 
   void rotate(float angle, float deltaTime)
