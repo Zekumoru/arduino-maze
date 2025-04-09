@@ -39,7 +39,9 @@ public:
     cameraPlane = m_baseCameraPlane;
   }
 
-  //needs refactor: moveX and moveY
+  //DEPRECATED: it doesen't check for collision, and if u do and call this
+  //            player get stuck into walls. If we make player aware of map
+  //            we can use it tho.
   void movePlayer(float deltaTime)
   { 
       pos = pos + dir * moveSpeed * deltaTime;

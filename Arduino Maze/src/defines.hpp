@@ -7,7 +7,7 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
-#define MAX_LINE_LEN (SCREEN_HEIGHT - 8)
+#define MAX_LINE_LEN SCREEN_HEIGHT
 
 // the size of the map should be related to the screen res so we can fill the
 // map_view and have easier time rendering it. ig: yRes = 200, we can have

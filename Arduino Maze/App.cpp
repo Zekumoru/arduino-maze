@@ -30,16 +30,14 @@ void setup()
   state = GameState::LOADING;
   scenes[static_cast<int>(state)]->render();
   SDL_RenderPresent(gRenderer);
-  SDL_Delay(3000);
+  SDL_Delay(2000);
 
+  initTables();
+  setupButtons();
   scenes[static_cast<int>(GameState::MAIN_MENU)] = new MainMenu();
   scenes[static_cast<int>(GameState::GAME_VIEW)] = new MazeGame();
   scenes[static_cast<int>(GameState::MAP_VIEW)] = new MiniMap();
   scenes[static_cast<int>(GameState::GAME_OVER)] = new GameOver();
-
-  setupButtons();
-
-  initTables();
 
   state = GameState::MAIN_MENU;
 }
