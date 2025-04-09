@@ -346,8 +346,8 @@ private:
     // figure out a way to show direction of view) this system was thought for 1
     // pixel next to the player in the direction he's looking not working if the
     // player size in minimap is even, need odd to work
-    int posX = x + player.dir.x * 3;
-    int posY = y + player.dir.y * 3;
+    float posX = x + player.dir.x * 3.0f;
+    float posY = y + player.dir.y * 3.0f;
   }
 };
 
@@ -358,7 +358,7 @@ public:
   {
     // set all minimap values to 0?
     player.pos = playerStartPos;
-    setMiniMap(player.pos.x, player.pos.y);
+    setMiniMap((int)player.pos.x, (int)player.pos.y);
   }
 
   virtual void render() override
@@ -457,8 +457,8 @@ private:
       vec2 deltaDist;
       float perpDist;
 
-      deltaDist.x = (rayDir.x == 0) ? 1e30 : std::abs(1 / rayDir.x);
-      deltaDist.y = (rayDir.y == 0) ? 1e30 : std::abs(1 / rayDir.y);
+      deltaDist.x = (rayDir.x == 0.0f) ? 1e30f : std::abs(1 / rayDir.x);
+      deltaDist.y = (rayDir.y == 0.0f) ? 1e30f : std::abs(1 / rayDir.y);
 
       int stepY;
       int stepX;

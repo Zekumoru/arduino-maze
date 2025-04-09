@@ -65,7 +65,7 @@ inline void initTables()
 {
   for (int angle = 0; angle < 360; angle++)
   {
-    float rad = (float)angle * PI / 180;
+    float rad = (float)angle * (float)PI / 180.0f;
     cosLT[angle] = cos(rad);
     sinLT[angle] = sin(rad);
   }
