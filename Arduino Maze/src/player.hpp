@@ -46,7 +46,7 @@ public:
     if (m_angle >= 360)
       m_angle = m_angle - 360;
     if (m_angle < 0)
-      m_angle = 360 + angle;
+      m_angle = 360 + m_angle;
 
     dir.x = cosLT[(int)m_angle];
     dir.y = sinLT[(int)m_angle];
@@ -63,7 +63,7 @@ private:
   vec2 m_baseDir;
   vec2 m_baseCameraPlane;
 
-  float m_fov; // need to choose witch one to use
+  float m_fov;
 
   void rotateCamera()
   {
@@ -73,6 +73,7 @@ private:
       angle = angle - 360;
     if (angle < 0)
       angle = 360 + angle;
+
 
     cameraPlane.x = m_baseCameraPlane.x * cosLT[(int)angle] -
                     sinLT[(int)angle] * m_baseCameraPlane.y;

@@ -386,11 +386,22 @@ public:
         input = true;
         vec2 predicetdPos = player.pos + player.dir;
 
-        if (!(predicetdPos.x >= MAP_WIDTH || predicetdPos.y >= MAP_HEIGHT) &&
-            !(map[(int)predicetdPos.y][(int)predicetdPos.x] == Tile::WALL ||
-              map[(int)predicetdPos.y][(int)predicetdPos.x] == Tile::WALL_BLUE))
+        if (!(predicetdPos.x >= MAP_WIDTH || predicetdPos.y >= MAP_HEIGHT))
         {
-          player.movePlayer(1.0f, deltaTime);
+            if (!(map[(int)predicetdPos.y][(int)player.pos.x] == Tile::WALL ||
+                map[(int)predicetdPos.y][(int)player.pos.x] ==
+                Tile::WALL_BLUE))
+            {
+              player.pos.y += player.dir.y * deltaTime;
+            }
+            if (!(map[(int)player.pos.y][(int)predicetdPos.x] == Tile::WALL ||
+                  map[(int)player.pos.y][(int)predicetdPos.x] ==
+                  Tile::WALL_BLUE))
+            {
+              player.pos.x += player.dir.x * deltaTime;
+            }
+
+          //player.movePlayer(1.0f, deltaTime);
           if (map[(int)player.pos.y][(int)player.pos.x] == END)
           {
             newState = GameState::GAME_OVER;
