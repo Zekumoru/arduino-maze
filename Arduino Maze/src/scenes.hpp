@@ -108,7 +108,7 @@ public:
   Scene() = default;
 
   virtual void render() = 0;
-  virtual GameState processInput() = 0;
+  virtual GameState processInput(float deltaTime) = 0;
 
 protected:
   void clearScreen()
@@ -127,7 +127,10 @@ public:
     // set text pos
   }
 
-  virtual GameState processInput() override { return GameState::LOADING; }
+  virtual GameState processInput(float deltaTime) override
+  {
+    return GameState::LOADING;
+  }
 
   virtual void render() override
   {
@@ -168,7 +171,7 @@ public:
     tft.print("Press\na button\nto start!");
   }
 
-  virtual GameState processInput()
+  virtual GameState processInput(float deltaTime)
   {
     bool input = false;
 
@@ -218,7 +221,7 @@ public:
     // render "Press a button to try again..."
   }
 
-  virtual GameState processInput() override
+  virtual GameState processInput(float deltaTime) override
   {
     GameState newGamestate = GameState::GAME_OVER;
 
@@ -256,7 +259,7 @@ public:
     renderPlayer();
   }
 
-  virtual GameState processInput() override
+  virtual GameState processInput(float deltaTime) override
   {
     GameState newGamestate = GameState::MAP_VIEW;
 
@@ -365,7 +368,7 @@ public:
     rayCasting();
   }
 
-  virtual GameState processInput() override
+  virtual GameState processInput(float deltaTime) override
   {
     bool input = false;
     bool gameOver = false;
@@ -387,7 +390,7 @@ public:
             !(map[(int)predicetdPos.y][(int)predicetdPos.x] == Tile::WALL ||
               map[(int)predicetdPos.y][(int)predicetdPos.x] == Tile::WALL_BLUE))
         {
-          player.movePlayer(1.0f);
+          player.movePlayer(1.0f, deltaTime);
           if (map[(int)player.pos.y][(int)player.pos.x] == END)
           {
             newState = GameState::GAME_OVER;
@@ -402,13 +405,13 @@ public:
       if (buttonsState[KEY_LEFT])
       {
         input = true;
-        player.rotate(-1.7);
+        player.rotate(-90, deltaTime);
       }
 
       if (buttonsState[KEY_RIGHT])
       {
         input = true;
-        player.rotate(1.7);
+        player.rotate(90, deltaTime);
       }
 
       if (buttonsState[KEY_OPTION])

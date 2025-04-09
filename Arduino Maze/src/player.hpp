@@ -32,16 +32,16 @@ public:
     cameraPlane = m_baseCameraPlane;
   }
 
-  void movePlayer(float distance)
+  void movePlayer(float distance, float deltaTime)
   {
-    float deltaTime = 0.07f;
+    //float deltaTime = 0.07f;
     pos.x += distance * dir.x * deltaTime;
     pos.y += distance * dir.y * deltaTime;
   };
 
-  void rotate(float angle)
+  void rotate(float angle, float deltaTime)
   {
-    m_angle += angle;
+    m_angle += (angle * deltaTime);
 
     if (m_angle >= 360)
       m_angle = m_angle - 360;

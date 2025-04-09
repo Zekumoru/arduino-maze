@@ -46,7 +46,8 @@ void setup()
 
 void loop()
 {
+  float deltaTime = getDeltaTime();
   scenes[static_cast<int>(state)]->render();
 
-  state = scenes[static_cast<int>(state)]->processInput();
+  state = scenes[static_cast<int>(state)]->processInput(deltaTime);
 }

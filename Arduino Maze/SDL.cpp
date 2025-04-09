@@ -110,14 +110,51 @@ Button getButtonSDL()
   return NONE;
 }
 
-Uint64 lastTime = SDL_GetPerformanceCounter();
+//static Uint64 lastTime = SDL_GetPerformanceCounter();
+
+//float getDeltaTime()
+//{
+//  Uint64 now = SDL_GetPerformanceCounter();
+//  float deltaTime =
+//      (float)((now - lastTime) * 1000 / (double)SDL_GetPerformanceFrequency()) *
+//      0.001f;
+//  lastTime = now;
+//  return deltaTime;
+//}
 
 float getDeltaTime()
 {
-  Uint64 now = SDL_GetPerformanceCounter();
-  float deltaTime =
-      (float)((now - lastTime) * 1000 / (double)SDL_GetPerformanceFrequency()) *
-      0.001f;
-  lastTime = now;
-  return deltaTime;
+  static Uint64 last_time = 0; // Time counter at the end of the previous frame
+  static Uint64 frequency = 0; // Ticks per second of the performance counter
+
+  if (frequency == 0)
+  {
+    frequency = SDL_GetPerformanceFrequency();
+    if (frequency == 0)
+    {
+      SDL_LogError(SDL_LOG_CATEGORY_APPLICATION,
+                   "Could not get performance frequency: %s", SDL_GetError());
+      return 0.0f;
+    }
+    last_time = SDL_GetPerformanceCounter();
+  }
+
+  Uint64 current_time = SDL_GetPerformanceCounter();
+
+  Uint64 elapsed_ticks;
+  if (current_time < last_time)
+  {
+    elapsed_ticks = (SDL_MAX_UINT64 - last_time) + current_time;
+  }
+  else
+  {
+    elapsed_ticks = current_time - last_time;
+  }
+
+  float delta_time =
+      static_cast<float>(elapsed_ticks) / static_cast<float>(frequency);
+
+  last_time = current_time;
+
+  return delta_time;
 }
