@@ -43,8 +43,8 @@ int map[MAP_HEIGHT][MAP_WIDTH] = {
   { 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1 },
   { 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
-  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1 },
-  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+  { 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1 },
+  { 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 };
 
 int miniMap[MAP_HEIGHT][MAP_WIDTH];
@@ -100,7 +100,7 @@ void putButtons(bool (&buttonsState)[5]) { putButtonsSDL(buttonsState); }
 
 // player instance
 static Player player;
-static vec2 playerStartPos = vec2(2, 2);
+static vec2 playerStartPos = vec2(2, MAP_HEIGHT - 2);
 
 class Scene
 {
@@ -510,12 +510,14 @@ private:
         {
           mapY = MAP_HEIGHT - 1;
           sideDist.y = 1e100;
+          hit = true;
         }
 
         if (mapX >= MAP_WIDTH)
         {
           mapX = MAP_WIDTH - 1;
           sideDist.x = 1e100;
+          hit = true;
         }
 
         if (mapY < 0)
