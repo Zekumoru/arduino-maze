@@ -75,7 +75,7 @@ void unlockMiniMapArea(int xPos, int yPos)
 void setMiniMap(int xPos, int yPos)
 {
   miniMap[yPos][xPos] = 1;
-  //unlockMiniMapArea(yPos, xPos);
+  // unlockMiniMapArea(yPos, xPos);
 }
 
 // button utility, should make arduino calls
@@ -257,7 +257,7 @@ public:
   {
     clearScreen();
     renderMiniMap();
-    renderPlayer();
+    // renderPlayer();
   }
 
   virtual GameState processInput(float deltaTime) override
@@ -267,7 +267,7 @@ public:
     Button button = getButton();
     if (button == Button::KEY_OPTION)
     {
-        newGamestate = GameState::GAME_VIEW;
+      newGamestate = GameState::GAME_VIEW;
     }
 
     return newGamestate;
@@ -284,7 +284,7 @@ private:
     {
       for (int x = 0; x < MAP_WIDTH; x++)
       {
-        if (!miniMap[x][y])
+        if (!miniMap[y][x])
           continue;
 
         switch (map[y][x])
@@ -316,7 +316,7 @@ private:
 
     int sideLenght = CELL_SIZE - 2;
 
-    tft.fillRect(xPos, yPos, sideLenght, sideLenght, color);
+    tft.fillRect(xPos + 1, yPos + 1, sideLenght, sideLenght, color);
   }
 
   void renderPlayer()
@@ -326,19 +326,19 @@ private:
     float posY = player.pos.y * CELL_SIZE;
 
     // drawcall:
-    tft.fillRect((int)posX - playerSizeMiniMap / 2.0f, (int)posX - playerSizeMiniMap/2.0f, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN); // to be tested
+    tft.fillRect((int)posX - playerSizeMiniMap / 2.0f, (int)posX - playerSizeMiniMap / 2.0f, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN); // to be tested
     renderPlayerDir((int)posX, (int)posY);
   }
 
   void renderPlayerDir(int x, int y)
   {
-    tft.drawPixel((player.pos.x + player.dir.x) * CELL_SIZE, (player.pos.y + player.dir.y) * CELL_SIZE, COL_GREEN); //TO BE TESTED
+    tft.drawPixel((player.pos.x + player.dir.x) * CELL_SIZE, (player.pos.y + player.dir.y) * CELL_SIZE, COL_GREEN); // TO BE TESTED
     // TODO: TO REVIEW (even cellsize cant center player properly, i've to
     // figure out a way to show direction of view) this system was thought for 1
     // pixel next to the player in the direction he's looking not working if the
     // player size in minimap is even, need odd to work
-    //float posX = x + player.dir.x * 3.0f;
-    //float posY = y + player.dir.y * 3.0f;
+    // float posX = x + player.dir.x * 3.0f;
+    // float posY = y + player.dir.y * 3.0f;
   }
 };
 
@@ -349,7 +349,7 @@ public:
   {
     // set all minimap values to 0?
     player.pos = playerStartPos;
-    //setMiniMap((int)player.pos.x, (int)player.pos.y);
+    // setMiniMap((int)player.pos.x, (int)player.pos.y);
   }
 
   virtual void render() override
@@ -377,9 +377,8 @@ public:
         input = true;
         vec2 predicetdPos = player.pos + player.dir;
 
-        if (((int)predicetdPos.x < MAP_WIDTH && (int)predicetdPos.y < MAP_HEIGHT)
-            && ((int)predicetdPos.x >= 0 && (int)predicetdPos.y >= 0))
-        {            
+        if (((int)predicetdPos.x < MAP_WIDTH && (int)predicetdPos.y < MAP_HEIGHT) && ((int)predicetdPos.x >= 0 && (int)predicetdPos.y >= 0))
+        {
           movePlayer(predicetdPos, deltaTime);
           if (map[(int)player.pos.y][(int)player.pos.x] == END)
           {
@@ -387,7 +386,7 @@ public:
           }
           else
           {
-            unlockMiniMapArea((int)player.pos.x, (int)player.pos.y);
+            // unlockMiniMapArea((int)player.pos.x, (int)player.pos.y);
           }
         }
       }
@@ -417,7 +416,6 @@ public:
   }
 
 private:
-
   void movePlayer(vec2 &nextPos, float deltaTime)
   {
     if (!(map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
@@ -514,7 +512,7 @@ private:
           mapX = MAP_WIDTH - 1;
           sideDist.x = 1e100;
           hit = true;
-        }  
+        }
         else if (mapX < 0)
         {
           mapX = 0;
