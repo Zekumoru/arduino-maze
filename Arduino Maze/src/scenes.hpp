@@ -29,12 +29,12 @@ int map[MAP_HEIGHT][MAP_WIDTH] = {
   { 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
   { 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
   { 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1 },
-  { 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 },
-  { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1 },
-  { 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
-  { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
-  { 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1 },
-  { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1 },
+  { 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1 },
+  { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1 },
+  { 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
+  { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1 },
+  { 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1 },
+  { 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 1 },
   { 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1 },
   { 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1 },
   { 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1 },
@@ -100,7 +100,7 @@ void putButtons(bool (&buttonsState)[5]) { putButtonsSDL(buttonsState); }
 
 // player instance
 static Player player;
-static vec2 playerStartPos = vec2(2, MAP_HEIGHT - 2);
+static vec2 playerStartPos = vec2(MAP_WIDTH/2, MAP_HEIGHT/2);
 
 class Scene
 {
@@ -334,20 +334,19 @@ private:
     float posY = player.pos.y * CELL_SIZE;
 
     // drawcall:
-    // drawRect((int)posX - 1, (int)posX - 1, playerSizeMiniMap,
-    // playerSizeMiniMap, COL_GREEN);
+    tft.fillRect((int)posX - playerSizeMiniMap / 2.0f, (int)posX - playerSizeMiniMap/2.0f, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN); // to be tested
     renderPlayerDir((int)posX, (int)posY);
   }
 
   void renderPlayerDir(int x, int y)
   {
-
+    tft.drawPixel((player.pos.x + player.dir.x) * CELL_SIZE, (player.pos.y + player.dir.y) * CELL_SIZE, COL_GREEN); //TO BE TESTED
     // TODO: TO REVIEW (even cellsize cant center player properly, i've to
     // figure out a way to show direction of view) this system was thought for 1
     // pixel next to the player in the direction he's looking not working if the
     // player size in minimap is even, need odd to work
-    float posX = x + player.dir.x * 3.0f;
-    float posY = y + player.dir.y * 3.0f;
+    //float posX = x + player.dir.x * 3.0f;
+    //float posY = y + player.dir.y * 3.0f;
   }
 };
 
