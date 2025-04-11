@@ -21,7 +21,7 @@ extern Adafruit_ILI9341 tft;
 //!!! Will probably opt for a one dim array (map[HEIGHT*WIDTH] for better
 //! access(?) to memory)
 int map[MAP_HEIGHT][MAP_WIDTH] = {
-  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+  { 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1 },
   { 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1 },
   { 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1 },
@@ -386,7 +386,8 @@ public:
         input = true;
         vec2 predicetdPos = player.pos + player.dir;
 
-        if (!(predicetdPos.x >= MAP_WIDTH || predicetdPos.y >= MAP_HEIGHT))
+        if (((int)predicetdPos.x < MAP_WIDTH && (int)predicetdPos.y < MAP_HEIGHT)
+            && ((int)predicetdPos.x >= 0 && (int)predicetdPos.y >= 0))
         {            
           movePlayer(predicetdPos, deltaTime);
           //player.movePlayer(1.0f, deltaTime);
@@ -505,7 +506,33 @@ private:
           side = 1;
         }
 
-        if (map[mapY][mapX] != Tile::EMPTY && map[mapY][mapX] != Tile::END)
+        if (mapY >= MAP_HEIGHT)
+        {
+          mapY = MAP_HEIGHT - 1;
+          sideDist.y = 1e100;
+        }
+
+        if (mapX >= MAP_WIDTH)
+        {
+          mapX = MAP_WIDTH - 1;
+          sideDist.x = 1e100;
+        }
+
+        if (mapY < 0)
+        {
+          mapY = 0;
+          sideDist.y = 1e100;
+          hit = true;
+        }
+
+        if (mapX < 0)
+        {
+          mapX = 0;
+          sideDist.x = 1e100;
+          hit = true;
+        }
+
+        if (map[mapY][mapX] != Tile::EMPTY && map[mapY][mapX] != Tile::END && !hit)
         {
           hit = true;
         }
