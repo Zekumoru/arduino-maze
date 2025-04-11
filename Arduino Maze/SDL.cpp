@@ -84,7 +84,7 @@ void putButtonsSDL(bool (&buttonsState)[5])
   buttonsState[KEY_LEFT] = keystate[SDL_SCANCODE_LEFT];
   buttonsState[KEY_RIGHT] = keystate[SDL_SCANCODE_RIGHT];
   buttonsState[KEY_UP] = keystate[SDL_SCANCODE_UP];
-  buttonsState[KEY_OPTION] = keystate[SDL_SCANCODE_SPACE];
+  buttonsState[KEY_OPTION] = keystate[SDL_SCANCODE_SPACE]; 
 }
 
 Button getButtonSDL()
@@ -92,31 +92,40 @@ Button getButtonSDL()
   SDL_Event e;
   SDL_zero(e);
 
+  Button button = Button::NONE;
+
   while (SDL_PollEvent(&e))
   {
     if (e.key.key == SDLK_ESCAPE)
     {
         gQuit = true;
-        return Button::NONE;
     }
     if (e.type == SDL_EVENT_QUIT)
     {
       gQuit = true;
     }
+    if (e.type == SDL_EVENT_KEY_DOWN)
+    {
+      switch (e.key.key)
+      {
+      case SDLK_UP:
+        button = KEY_UP;
+        break;
+      case SDLK_LEFT:
+        button = KEY_LEFT;
+        break;
+      case SDLK_RIGHT:
+        button = KEY_RIGHT;
+        break;
+      }
+    }
+    if (e.type == SDL_EVENT_KEY_UP && e.key.key == SDLK_SPACE)
+    {
+      button = KEY_OPTION;
+    }
   }
 
-  const bool *keystate = SDL_GetKeyboardState(nullptr);
-
-  if (keystate[SDL_SCANCODE_LEFT])
-    return KEY_LEFT;
-  if (keystate[SDL_SCANCODE_RIGHT])
-    return KEY_RIGHT;
-  if (keystate[SDL_SCANCODE_UP])
-    return KEY_UP;
-  if (keystate[SDL_SCANCODE_SPACE])
-    return KEY_OPTION;
-
-  return NONE;
+  return button;
 }
 
 //static Uint64 lastTime = SDL_GetPerformanceCounter();

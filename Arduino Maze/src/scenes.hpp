@@ -54,7 +54,7 @@ void resetMiniMap()
 {
   for (int y = 0; y < MAP_HEIGHT; y++)
     for (int x = 0; x < MAP_WIDTH; x++)
-      miniMap[y][x] = 0;
+      miniMap[y][x] = 1;
 }
 
 void unlockMiniMapArea(int xPos, int yPos)
@@ -75,7 +75,7 @@ void unlockMiniMapArea(int xPos, int yPos)
 void setMiniMap(int xPos, int yPos)
 {
   miniMap[yPos][xPos] = 1;
-  unlockMiniMapArea(yPos, xPos);
+  //unlockMiniMapArea(yPos, xPos);
 }
 
 // button utility, should make arduino calls
@@ -100,7 +100,7 @@ void putButtons(bool (&buttonsState)[5]) { putButtonsSDL(buttonsState); }
 
 // player instance
 static Player player;
-static vec2 playerStartPos = vec2(MAP_WIDTH/2, MAP_HEIGHT/2);
+static vec2 playerStartPos = vec2(2.5f, 2.5f);
 
 class Scene
 {
@@ -255,6 +255,7 @@ public:
 
   virtual void render() override
   {
+    clearScreen();
     renderMiniMap();
     renderPlayer();
   }
@@ -263,19 +264,10 @@ public:
   {
     GameState newGamestate = GameState::MAP_VIEW;
 
-    bool input = false;
-
-    while (!input)
+    Button button = getButton();
+    if (button == Button::KEY_OPTION)
     {
-      // read input
-      Button button = getButton();
-      if (button)
-      {
-        input = true;
         newGamestate = GameState::GAME_VIEW;
-      }
-
-      // sleep??
     }
 
     return newGamestate;
@@ -319,12 +311,12 @@ private:
 
   void drawCell(int x, int y, int color)
   {
-    int xPos = x * CELL_SIZE + 1;
-    int yPos = y * CELL_SIZE + 1;
+    int xPos = x * CELL_SIZE;
+    int yPos = y * CELL_SIZE;
 
     int sideLenght = CELL_SIZE - 2;
 
-    // drawcall for rect drawRect(xPos, yPos, sideLenght, sideLenght, color);
+    tft.fillRect(xPos, yPos, sideLenght, sideLenght, color);
   }
 
   void renderPlayer()
@@ -357,7 +349,7 @@ public:
   {
     // set all minimap values to 0?
     player.pos = playerStartPos;
-    setMiniMap((int)player.pos.x, (int)player.pos.y);
+    //setMiniMap((int)player.pos.x, (int)player.pos.y);
   }
 
   virtual void render() override
