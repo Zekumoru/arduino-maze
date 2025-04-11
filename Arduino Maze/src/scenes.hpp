@@ -390,7 +390,6 @@ public:
             && ((int)predicetdPos.x >= 0 && (int)predicetdPos.y >= 0))
         {            
           movePlayer(predicetdPos, deltaTime);
-          //player.movePlayer(1.0f, deltaTime);
           if (map[(int)player.pos.y][(int)player.pos.x] == END)
           {
             newState = GameState::GAME_OVER;
@@ -512,22 +511,20 @@ private:
           sideDist.y = 1e100;
           hit = true;
         }
-
-        if (mapX >= MAP_WIDTH)
-        {
-          mapX = MAP_WIDTH - 1;
-          sideDist.x = 1e100;
-          hit = true;
-        }
-
-        if (mapY < 0)
+        else if (mapY < 0)
         {
           mapY = 0;
           sideDist.y = 1e100;
           hit = true;
         }
 
-        if (mapX < 0)
+        if (mapX >= MAP_WIDTH)
+        {
+          mapX = MAP_WIDTH - 1;
+          sideDist.x = 1e100;
+          hit = true;
+        }  
+        else if (mapX < 0)
         {
           mapX = 0;
           sideDist.x = 1e100;

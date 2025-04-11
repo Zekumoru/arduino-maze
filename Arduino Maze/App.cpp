@@ -30,7 +30,7 @@ void setup()
   state = GameState::LOADING;
   scenes[static_cast<int>(state)]->render();
   SDL_RenderPresent(gRenderer);
-  SDL_Delay(2000);
+  SDL_Delay(1000);
 
   initTables();
   setupButtons();

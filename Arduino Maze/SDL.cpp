@@ -68,6 +68,10 @@ void putButtonsSDL(bool (&buttonsState)[5])
 
   while (SDL_PollEvent(&e))
   {
+    if (e.key.key == SDLK_ESCAPE)
+    {
+      gQuit = true;
+    }
     if (e.type == SDL_EVENT_QUIT)
     {
       gQuit = true;
@@ -90,6 +94,11 @@ Button getButtonSDL()
 
   while (SDL_PollEvent(&e))
   {
+    if (e.key.key == SDLK_ESCAPE)
+    {
+        gQuit = true;
+        return Button::NONE;
+    }
     if (e.type == SDL_EVENT_QUIT)
     {
       gQuit = true;
