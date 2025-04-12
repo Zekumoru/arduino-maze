@@ -29,6 +29,7 @@
 #define COL_ORANGE 0xFD20
 #define COL_MAGENTA 0xF81F
 #define COL_CYAN 0x07FF
+#define COL_DARKGREY 0x3186
 
 #define PI 3.14159265359
 

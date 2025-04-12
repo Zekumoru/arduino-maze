@@ -22,8 +22,8 @@ Scene *scenes[static_cast<int>(GameState::GAME_OVER) + 1];
 void setupButtons() { /* stub! */ }
 
 MainMenu g_mainMenu;
-MazeGame g_mazeGame;
 MiniMap g_miniMap;
+MazeGame g_mazeGame;
 GameOver g_gameOver;
 
 void setup()
@@ -40,8 +40,8 @@ void setup()
   initTables();
   setupButtons();
   scenes[static_cast<int>(GameState::MAIN_MENU)] = &g_mainMenu;
-  scenes[static_cast<int>(GameState::GAME_VIEW)] = &g_mazeGame;
   scenes[static_cast<int>(GameState::MAP_VIEW)] = &g_miniMap;
+  scenes[static_cast<int>(GameState::GAME_VIEW)] = &g_mazeGame;
   scenes[static_cast<int>(GameState::GAME_OVER)] = &g_gameOver;
 
   state = GameState::MAIN_MENU;

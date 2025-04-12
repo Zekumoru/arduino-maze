@@ -54,11 +54,22 @@ void resetMiniMap()
 {
   for (int y = 0; y < MAP_HEIGHT; y++)
     for (int x = 0; x < MAP_WIDTH; x++)
-      miniMap[y][x] = 1;
+      miniMap[y][x] = 0;
 }
 
 void unlockMiniMapArea(int xPos, int yPos)
 {
+  if (xPos < 0)
+    xPos = 1;
+  else if (xPos >= MAP_WIDTH)
+    xPos = MAP_WIDTH - 2;
+
+  if (yPos < 0)
+    yPos = 1;
+  else if (yPos >= MAP_HEIGHT)
+    yPos = MAP_HEIGHT - 2;
+
+
   // top row
   miniMap[yPos - 1][xPos - 1] = 1;
   miniMap[yPos - 1][xPos] = 1;
@@ -75,7 +86,7 @@ void unlockMiniMapArea(int xPos, int yPos)
 void setMiniMap(int xPos, int yPos)
 {
   miniMap[yPos][xPos] = 1;
-  // unlockMiniMapArea(yPos, xPos);
+  unlockMiniMapArea(yPos, xPos);
 }
 
 // button utility, should make arduino calls
@@ -140,7 +151,7 @@ public:
     tft.setCursor(0, 0);
     tft.setTextColor(COL_BLUE);
     tft.setTextSize(5);
-    tft.print("Loading");
+    tft.print(loadingText);
   }
 
 private:
@@ -257,7 +268,7 @@ public:
   {
     clearScreen();
     renderMiniMap();
-    // renderPlayer();
+    renderPlayer();
   }
 
   virtual GameState processInput(float deltaTime) override
@@ -290,7 +301,7 @@ private:
         switch (map[y][x])
         {
         case Tile::EMPTY:
-          color = COL_GREY;
+          color = COL_DARKGREY;
           break;
         case Tile::WALL:
         case Tile::WALL_BLUE:
@@ -321,24 +332,18 @@ private:
 
   void renderPlayer()
   {
-    // CARE: NOT SURE IF IT'S RIGHT, need to test it
-    float posX = player.pos.x * CELL_SIZE;
-    float posY = player.pos.y * CELL_SIZE;
+    float posX = (int)player.pos.x * CELL_SIZE;
+    float posY = (int)player.pos.y * CELL_SIZE;
 
-    // drawcall:
-    tft.fillRect((int)posX - playerSizeMiniMap / 2.0f, (int)posX - playerSizeMiniMap / 2.0f, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN); // to be tested
+    tft.fillRect((int)posX + 3, (int)posY + 3, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN); // to be tested
     renderPlayerDir((int)posX, (int)posY);
   }
 
   void renderPlayerDir(int x, int y)
   {
-    tft.drawPixel((player.pos.x + player.dir.x) * CELL_SIZE, (player.pos.y + player.dir.y) * CELL_SIZE, COL_GREEN); // TO BE TESTED
-    // TODO: TO REVIEW (even cellsize cant center player properly, i've to
-    // figure out a way to show direction of view) this system was thought for 1
-    // pixel next to the player in the direction he's looking not working if the
-    // player size in minimap is even, need odd to work
-    // float posX = x + player.dir.x * 3.0f;
-    // float posY = y + player.dir.y * 3.0f;
+    int posX = (x + CELL_SIZE / 2) + 3 * player.dir.x;
+    int posY = (y + CELL_SIZE / 2) + 3 * player.dir.y;
+    tft.drawPixel(posX, posY, COL_GREEN);
   }
 };
 
@@ -347,9 +352,8 @@ class MazeGame : public Scene
 public:
   MazeGame()
   {
-    // set all minimap values to 0?
     player.pos = playerStartPos;
-    // setMiniMap((int)player.pos.x, (int)player.pos.y);
+    setMiniMap((int)player.pos.x, (int)player.pos.y);
   }
 
   virtual void render() override
@@ -386,7 +390,7 @@ public:
           }
           else
           {
-            // unlockMiniMapArea((int)player.pos.x, (int)player.pos.y);
+            unlockMiniMapArea((int)player.pos.x, (int)player.pos.y);
           }
         }
       }
@@ -565,7 +569,6 @@ private:
 
   void drawFloor()
   {
-    // drawcall grey rect bottom half
     tft.fillRect(0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2,
                  COL_GREY);
   }
@@ -573,7 +576,7 @@ private:
   void drawVertLine(int x, int lenght, int color)
   {
     int lineStartY = (SCREEN_HEIGHT - lenght) / 2;
-    // drawcall line draw
+
     tft.drawFastVLine(x, lineStartY, lenght, color);
   }
 };
