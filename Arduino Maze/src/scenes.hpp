@@ -332,17 +332,17 @@ private:
 
   void renderPlayer()
   {
-    float posX = (int)player.pos.x * CELL_SIZE;
-    float posY = (int)player.pos.y * CELL_SIZE;
+    int posX = (int)player.pos.x * CELL_SIZE;
+    int posY = (int)player.pos.y * CELL_SIZE;
 
-    tft.fillRect((int)posX + 3, (int)posY + 3, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN); // to be tested
-    renderPlayerDir((int)posX, (int)posY);
+    tft.fillRect(posX + 3, posY + 3, playerSizeMiniMap, playerSizeMiniMap, COL_GREEN); // to be tested
+    renderPlayerDir(posX, posY);
   }
 
   void renderPlayerDir(int x, int y)
   {
-    int posX = (x + CELL_SIZE / 2) + 3 * player.dir.x;
-    int posY = (y + CELL_SIZE / 2) + 3 * player.dir.y;
+    int posX = (int)((x + CELL_SIZE / 2) + 3 * player.dir.x);
+    int posY = (int)((y + CELL_SIZE / 2) + 3 * player.dir.y);
     tft.drawPixel(posX, posY, COL_GREEN);
   }
 };
@@ -501,26 +501,26 @@ private:
         if (mapY >= MAP_HEIGHT)
         {
           mapY = MAP_HEIGHT - 1;
-          sideDist.y = 1e100;
+          sideDist.y = 1e10;
           hit = true;
         }
         else if (mapY < 0)
         {
           mapY = 0;
-          sideDist.y = 1e100;
+          sideDist.y = 1e10;
           hit = true;
         }
 
         if (mapX >= MAP_WIDTH)
         {
           mapX = MAP_WIDTH - 1;
-          sideDist.x = 1e100;
+          sideDist.x = 1e10;
           hit = true;
         }
         else if (mapX < 0)
         {
           mapX = 0;
-          sideDist.x = 1e100;
+          sideDist.x = 1e10;
           hit = true;
         }
 
