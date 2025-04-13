@@ -1,7 +1,5 @@
 #include "LoadingScene.hpp"
 
-#include "../definitions.hpp"
-#include "../engine/Scene.hpp"
 #include "../libs/Adafruit_ILI9341.hpp"
 
 extern Adafruit_ILI9341 tft;

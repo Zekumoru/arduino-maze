@@ -1,20 +1,15 @@
 // SDL Related Includes
 #include "libs/SDL.hpp"
 // Arduino Related Includes
-#include "definitions.hpp"
 #include "engine/Input.hpp"
 #include "engine/Player.hpp"
-#include "engine/Scene.hpp"
-#include "engine/Vec2.hpp"
-#include "libs/Adafruit_ILI9341.hpp"
+#include "App.hpp"
 #include "scenes/GameOverScene.hpp"
 #include "scenes/GameScene.hpp"
 #include "scenes/LoadingScene.hpp"
 #include "scenes/MainMenuScene.hpp"
 #include "scenes/MiniMapScene.hpp"
-#include <SDL3\SDL_render.h>
 #include <SDL3\SDL_timer.h>
-#include <cstring>
 
 #define TFT_DC 9
 #define TFT_CS 10

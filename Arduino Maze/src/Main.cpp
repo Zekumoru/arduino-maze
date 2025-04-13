@@ -1,8 +1,6 @@
 /* Headers */
 #include "App.hpp"
 #include "libs/SDL.hpp"
-#include <SDL3\SDL_events.h>
-#include <SDL3\SDL_render.h>
 
 extern SDL_Renderer *gRenderer;
 extern SDL_Event gEvent;

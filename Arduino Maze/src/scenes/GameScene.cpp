@@ -1,10 +1,7 @@
 #include "GameScene.hpp"
 
-#include "../definitions.hpp"
 #include "../engine/Input.hpp"
 #include "../engine/Player.hpp"
-#include "../engine/Scene.hpp"
-#include "../engine/Vec2.hpp"
 #include "../libs/Adafruit_ILI9341.hpp"
 #include "map.hpp"
 
