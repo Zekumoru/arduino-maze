@@ -12,6 +12,7 @@
 #include "defines.hpp"
 #include "player.hpp"
 #include "vec2.hpp"
+#include <SDL3\SDL_log.h>
 #include <iostream>
 
 #define IS_USING_SDL true
@@ -70,7 +71,6 @@ void unlockMiniMapArea(int xPos, int yPos)
   else if (yPos >= MAP_HEIGHT - 1)
     yPos = MAP_HEIGHT - 2;
 
-
   // top row
   miniMap[(yPos - 1)][(xPos - 1)] = 1;
   miniMap[(yPos - 1)][xPos] = 1;
@@ -112,10 +112,10 @@ void putButtons(bool (&buttonsState)[5]) { putButtonsSDL(buttonsState); }
 
 // player instance
 static Player player;
-//static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
-//static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
+// static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
+// static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
 static vec2 playerStartPos = vec2(MAP_WIDTH - 2, MAP_HEIGHT - 2);
-//static vec2 playerStartPos = vec2(1.5f, 1.5f);
+// static vec2 playerStartPos = vec2(1.5f, 1.5f);
 
 class Scene
 {
@@ -279,8 +279,9 @@ public:
   {
     GameState newGamestate = GameState::MAP_VIEW;
 
-    Button button = getButton();
-    if (button == Button::KEY_OPTION)
+    bool buttonsState[] = { false, false, false, false, false };
+    putButtons(buttonsState);
+    if (buttonsState[KEY_OPTION])
     {
       newGamestate = GameState::GAME_VIEW;
     }
