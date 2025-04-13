@@ -12,6 +12,7 @@
 #include "defines.hpp"
 #include "player.hpp"
 #include "vec2.hpp"
+#include <iostream>
 
 #define IS_USING_SDL true
 
@@ -43,7 +44,7 @@ int map[MAP_HEIGHT][MAP_WIDTH] = {
   { 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1 },
   { 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1 },
-  { 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 1 },
+  { 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1 },
   { 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 };
 
@@ -59,34 +60,34 @@ void resetMiniMap()
 
 void unlockMiniMapArea(int xPos, int yPos)
 {
-  if (xPos < 0)
+  if (xPos < 1)
     xPos = 1;
-  else if (xPos >= MAP_WIDTH)
+  else if (xPos >= MAP_WIDTH - 1)
     xPos = MAP_WIDTH - 2;
 
-  if (yPos < 0)
+  if (yPos < 1)
     yPos = 1;
-  else if (yPos >= MAP_HEIGHT)
+  else if (yPos >= MAP_HEIGHT - 1)
     yPos = MAP_HEIGHT - 2;
 
 
   // top row
-  miniMap[yPos - 1][xPos - 1] = 1;
-  miniMap[yPos - 1][xPos] = 1;
-  miniMap[yPos - 1][xPos + 1] = 1;
+  miniMap[(yPos - 1)][(xPos - 1)] = 1;
+  miniMap[(yPos - 1)][xPos] = 1;
+  miniMap[(yPos - 1)][(xPos + 1)] = 1;
   // midlle row
-  miniMap[yPos][xPos - 1] = 1;
-  miniMap[yPos][xPos + 1] = 1;
+  miniMap[yPos][(xPos - 1)] = 1;
+  miniMap[yPos][(xPos + 1)] = 1;
   // bottom row
-  miniMap[yPos + 1][xPos - 1] = 1;
-  miniMap[yPos + 1][xPos] = 1;
-  miniMap[yPos + 1][xPos + 1] = 1;
+  miniMap[(yPos + 1)][(xPos - 1)] = 1;
+  miniMap[(yPos + 1)][xPos] = 1;
+  miniMap[(yPos + 1)][(xPos + 1)] = 1;
 }
 
 void setMiniMap(int xPos, int yPos)
 {
   miniMap[yPos][xPos] = 1;
-  unlockMiniMapArea(yPos, xPos);
+  unlockMiniMapArea(xPos, yPos);
 }
 
 // button utility, should make arduino calls
@@ -111,7 +112,10 @@ void putButtons(bool (&buttonsState)[5]) { putButtonsSDL(buttonsState); }
 
 // player instance
 static Player player;
-static vec2 playerStartPos = vec2(2.5f, 2.5f);
+//static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
+//static vec2 playerStartPos = vec2((MAP_WIDTH - 1) / 2.0f, (MAP_HEIGHT - 1) / 2.0f);
+static vec2 playerStartPos = vec2(MAP_WIDTH - 2, MAP_HEIGHT - 2);
+//static vec2 playerStartPos = vec2(1.5f, 1.5f);
 
 class Scene
 {
@@ -314,7 +318,6 @@ private:
           color = COL_MAGENTA;
           break;
         }
-
         drawCell(x, y, color);
       }
     }
