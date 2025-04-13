@@ -61,8 +61,9 @@ void close()
   SDL_Quit();
 }
 
-void putButtonsSDL(bool (&buttonsState)[5])
+bool *getButtonsStateSDL()
 {
+  static bool buttonsState[5];
   SDL_Event e;
   SDL_zero(e);
 
@@ -85,60 +86,9 @@ void putButtonsSDL(bool (&buttonsState)[5])
   buttonsState[KEY_RIGHT] = keystate[SDL_SCANCODE_RIGHT];
   buttonsState[KEY_UP] = keystate[SDL_SCANCODE_UP];
   buttonsState[KEY_OPTION] = keystate[SDL_SCANCODE_SPACE];
+
+  return buttonsState;
 }
-
-Button getButtonSDL()
-{
-  SDL_Event e;
-  SDL_zero(e);
-
-  Button button = Button::NONE;
-
-  while (SDL_PollEvent(&e))
-  {
-    if (e.key.key == SDLK_ESCAPE)
-    {
-      gQuit = true;
-    }
-    if (e.type == SDL_EVENT_QUIT)
-    {
-      gQuit = true;
-    }
-    if (e.type == SDL_EVENT_KEY_DOWN)
-    {
-      switch (e.key.key)
-      {
-      case SDLK_UP:
-        button = KEY_UP;
-        break;
-      case SDLK_LEFT:
-        button = KEY_LEFT;
-        break;
-      case SDLK_RIGHT:
-        button = KEY_RIGHT;
-        break;
-      }
-    }
-    if (e.type == SDL_EVENT_KEY_UP && e.key.key == SDLK_SPACE)
-    {
-      button = KEY_OPTION;
-    }
-  }
-
-  return button;
-}
-
-// static Uint64 lastTime = SDL_GetPerformanceCounter();
-
-// float getDeltaTime()
-//{
-//   Uint64 now = SDL_GetPerformanceCounter();
-//   float deltaTime =
-//       (float)((now - lastTime) * 1000 / (double)SDL_GetPerformanceFrequency()) *
-//       0.001f;
-//   lastTime = now;
-//   return deltaTime;
-// }
 
 float getDeltaTime()
 {

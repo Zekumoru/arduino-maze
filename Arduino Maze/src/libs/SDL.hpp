@@ -26,8 +26,6 @@ void init();
 
 void close();
 
-void putButtonsSDL(bool (&buttonsState)[5]);
-
-Button getButtonSDL();
+bool *getButtonsStateSDL();
 
 float getDeltaTime();

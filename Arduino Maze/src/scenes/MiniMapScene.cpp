@@ -30,8 +30,7 @@ GameState MiniMapScene::processInput(float deltaTime)
   // TODO: Perhaps to swap GAME_VIEW and MAP_VIEW?
   GameState newGamestate = GameState::GAME_VIEW;
 
-  bool buttonsState[5] = { false, false, false, false, false };
-  putButtons(buttonsState);
+  const bool *buttonsState = getButtonsState();
   if (buttonsState[KEY_OPTION])
   {
     newGamestate = GameState::MAP_VIEW;

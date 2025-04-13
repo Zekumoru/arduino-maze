@@ -7,7 +7,7 @@ void setupButtons()
   // stub!
 }
 
-void putButtons(bool (&buttonsState)[5])
+bool *getButtonsState()
 {
-  putButtonsSDL(buttonsState);
+  return getButtonsStateSDL();
 }

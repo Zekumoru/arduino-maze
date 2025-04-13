@@ -31,9 +31,8 @@ GameState GameScene::processInput(float deltaTime)
   bool input = false;
   bool gameOver = false;
   GameState newState = GameState::GAME_VIEW;
-  bool buttonsState[5] = { false, false, false, false, false };
 
-  putButtons(buttonsState);
+  const bool *buttonsState = getButtonsState();
 
   if (buttonsState[KEY_UP])
   {

@@ -3,6 +3,6 @@
 
 void setupButtons();
 
-void putButtons(bool (&buttonsState)[5]);
+bool *getButtonsState();
 
 #endif // INPUT_HPP
