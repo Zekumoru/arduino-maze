@@ -131,27 +131,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Adafruit_GFX.cpp" />
-    <ClCompile Include="Adafruit_ILI9341.cpp" />
-    <ClCompile Include="App.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="SDL.cpp" />
-    <ClCompile Include="src\vec2.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include=".clang-format" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Adafruit_GFX.h" />
-    <ClInclude Include="Adafruit_ILI9341.h" />
-    <ClInclude Include="App.h" />
-    <ClInclude Include="src\defines.hpp" />
-    <ClInclude Include="font.h" />
-    <ClInclude Include="SDL.h" />
-    <ClInclude Include="src\player.hpp" />
-    <ClInclude Include="src\scenes.hpp" />
-    <ClInclude Include="src\titleScreen.hpp" />
-    <ClInclude Include="src\vec2.hpp" />
+    <ClCompile Include="src\App.cpp" />
+    <ClCompile Include="src\engine\Input.cpp" />
+    <ClCompile Include="src\engine\Input.hpp" />
+    <ClCompile Include="src\engine\Player.cpp" />
+    <ClCompile Include="src\engine\Scene.cpp" />
+    <ClCompile Include="src\engine\Vec2.cpp" />
+    <ClCompile Include="src\libs\Adafruit_GFX.cpp" />
+    <ClCompile Include="src\libs\Adafruit_ILI9341.cpp" />
+    <ClCompile Include="src\libs\SDL.cpp" />
+    <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\scenes\GameOverScene.cpp" />
+    <ClCompile Include="src\scenes\GameScene.cpp" />
+    <ClCompile Include="src\scenes\LoadingScene.cpp" />
+    <ClCompile Include="src\scenes\MainMenuScene.cpp" />
+    <ClCompile Include="src\scenes\Map.cpp" />
+    <ClCompile Include="src\scenes\MiniMapScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\App.hpp" />
+    <ClInclude Include="src\definitions.hpp" />
+    <ClInclude Include="src\engine\Player.hpp" />
+    <ClInclude Include="src\engine\Scene.hpp" />
+    <ClInclude Include="src\engine\Vec2.hpp" />
+    <ClInclude Include="src\libs\Adafruit_GFX.hpp" />
+    <ClInclude Include="src\libs\Adafruit_ILI9341.hpp" />
+    <ClInclude Include="src\libs\font.hpp" />
+    <ClInclude Include="src\libs\SDL.hpp" />
+    <ClInclude Include="src\scenes\GameOverScene.hpp" />
+    <ClInclude Include="src\scenes\GameScene.hpp" />
+    <ClInclude Include="src\scenes\LoadingScene.hpp" />
+    <ClInclude Include="src\scenes\MainMenuScene.hpp" />
+    <ClInclude Include="src\scenes\Map.hpp" />
+    <ClInclude Include="src\scenes\MiniMapScene.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

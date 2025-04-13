@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Adafruit_ILI9341.h"
+#include "libs/Adafruit_ILI9341.hpp"
 
 extern Adafruit_ILI9341 tft;
 

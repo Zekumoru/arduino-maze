@@ -1,5 +1,5 @@
-#ifndef DEFINES_HPP
-#define DEFINES_HPP
+#ifndef DEFINITIONS_HPP
+#define DEFINITIONS_HPP
 
 #include <cmath>
 
@@ -59,8 +59,8 @@ enum class GameState
   GAME_OVER
 };
 
-inline static float cosLT[360];
-inline static float sinLT[360];
+extern float cosLT[360];
+extern float sinLT[360];
 
 inline void initTables()
 {
@@ -72,4 +72,4 @@ inline void initTables()
   }
 }
 
-#endif // !DEFINES_HPP
+#endif // !DEFINITIONS_HPP

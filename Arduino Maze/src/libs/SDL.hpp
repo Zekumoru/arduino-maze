@@ -1,6 +1,6 @@
 #pragma once
 
-#include "src/defines.hpp"
+#include "../definitions.hpp"
 #include <SDL3\SDL_render.h>
 #include <SDL3\SDL_video.h>
 #include <cstdint>

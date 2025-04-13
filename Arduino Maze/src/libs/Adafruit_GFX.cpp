@@ -1,7 +1,7 @@
-#include "Adafruit_GFX.h"
+#include "Adafruit_GFX.hpp"
 
-#include "SDL.h"
-#include "font.h"
+#include "SDL.hpp"
+#include "font.hpp"
 #include <SDL3\SDL_rect.h>
 #include <SDL3\SDL_render.h>
 #include <SDL3\SDL_video.h>

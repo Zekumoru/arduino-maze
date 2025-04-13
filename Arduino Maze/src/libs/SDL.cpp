@@ -1,5 +1,5 @@
-#include "SDL.h"
-#include "src/defines.hpp"
+#include "SDL.hpp"
+#include "../definitions.hpp"
 #include <SDL3\SDL_error.h>
 #include <SDL3\SDL_events.h>
 #include <SDL3\SDL_init.h>
@@ -84,7 +84,7 @@ void putButtonsSDL(bool (&buttonsState)[5])
   buttonsState[KEY_LEFT] = keystate[SDL_SCANCODE_LEFT];
   buttonsState[KEY_RIGHT] = keystate[SDL_SCANCODE_RIGHT];
   buttonsState[KEY_UP] = keystate[SDL_SCANCODE_UP];
-  buttonsState[KEY_OPTION] = keystate[SDL_SCANCODE_SPACE]; 
+  buttonsState[KEY_OPTION] = keystate[SDL_SCANCODE_SPACE];
 }
 
 Button getButtonSDL()
@@ -98,7 +98,7 @@ Button getButtonSDL()
   {
     if (e.key.key == SDLK_ESCAPE)
     {
-        gQuit = true;
+      gQuit = true;
     }
     if (e.type == SDL_EVENT_QUIT)
     {
@@ -128,17 +128,17 @@ Button getButtonSDL()
   return button;
 }
 
-//static Uint64 lastTime = SDL_GetPerformanceCounter();
+// static Uint64 lastTime = SDL_GetPerformanceCounter();
 
-//float getDeltaTime()
+// float getDeltaTime()
 //{
-//  Uint64 now = SDL_GetPerformanceCounter();
-//  float deltaTime =
-//      (float)((now - lastTime) * 1000 / (double)SDL_GetPerformanceFrequency()) *
-//      0.001f;
-//  lastTime = now;
-//  return deltaTime;
-//}
+//   Uint64 now = SDL_GetPerformanceCounter();
+//   float deltaTime =
+//       (float)((now - lastTime) * 1000 / (double)SDL_GetPerformanceFrequency()) *
+//       0.001f;
+//   lastTime = now;
+//   return deltaTime;
+// }
 
 float getDeltaTime()
 {
