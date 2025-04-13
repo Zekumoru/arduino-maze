@@ -59,13 +59,15 @@ Vec2 Vec2::operator/(const int value)
 
 float Vec2::dot(const Vec2 &left, const Vec2 &right)
 {
-  float leftLength = sqrt(left.x * left.x + left.y * left.y);
-  float rightLength = sqrt(right.x * right.x + right.y * right.y);
-
-  Vec2 unitLeft = left / leftLength;
-  Vec2 unitRight = right / rightLength;
+  Vec2 unitLeft = left / left.lenght();
+  Vec2 unitRight = right / right.lenght();
 
   return unitLeft.x * unitRight.x + unitLeft.y * unitRight.y;
+}
+
+float Vec2::lenght() const noexcept
+{
+  return sqrtf(x*x + y*y);
 }
 
 Vec2 operator/(const Vec2 &vec, float value)

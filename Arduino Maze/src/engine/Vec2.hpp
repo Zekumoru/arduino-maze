@@ -35,6 +35,7 @@ struct Vec2
   friend Vec2 operator/(const Vec2 &vec, float value);
 
   static float dot(const Vec2 &left, const Vec2 &right);
+  float lenght() const noexcept;
 };
 
 #endif // !VEC2_H

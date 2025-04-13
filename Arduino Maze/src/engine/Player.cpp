@@ -1,7 +1,6 @@
 #include "Player.hpp"
 
 #include "../definitions.hpp"
-#include "Vec2.hpp"
 
 extern float cosLT[];
 extern float sinLT[];
