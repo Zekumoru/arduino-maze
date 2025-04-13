@@ -10,7 +10,7 @@ class GameScene : public Scene
 public:
   GameScene();
   virtual void render() override;
-  virtual GameState processInput(float deltaTime) override;
+  virtual GameState processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime) override;
 
 private:
   void movePlayer(Vec2 &nextPos, float deltaTime);

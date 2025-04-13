@@ -22,7 +22,7 @@ void GameOverScene::render()
   // render "Press a button to try again..."
 }
 
-GameState GameOverScene::processInput(float deltaTime)
+GameState GameOverScene::processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime)
 {
   // REFACTOR: Use putButtons().
   // GameState newGamestate = GameState::GAME_OVER;

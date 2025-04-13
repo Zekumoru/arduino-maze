@@ -12,7 +12,7 @@ LoadingScene::LoadingScene() : loadingText("Loading...")
   // set text pos
 }
 
-GameState LoadingScene::processInput(float deltaTime)
+GameState LoadingScene::processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime)
 {
   return GameState::LOADING;
 }

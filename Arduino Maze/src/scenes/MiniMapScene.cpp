@@ -25,15 +25,13 @@ void MiniMapScene::render()
   renderPlayer();
 }
 
-GameState MiniMapScene::processInput(float deltaTime)
+GameState MiniMapScene::processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime)
 {
-  // TODO: Perhaps to swap GAME_VIEW and MAP_VIEW?
-  GameState newGamestate = GameState::GAME_VIEW;
+  GameState newGamestate = GameState::MAP_VIEW;
 
-  const bool *buttonsState = getButtonsState();
-  if (buttonsState[KEY_OPTION])
+  if (buttonsJustPressed[KEY_OPTION])
   {
-    newGamestate = GameState::MAP_VIEW;
+    newGamestate = GameState::GAME_VIEW;
   }
 
   return newGamestate;

@@ -26,17 +26,12 @@ void GameScene::render()
   rayCasting();
 }
 
-GameState GameScene::processInput(float deltaTime)
+GameState GameScene::processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime)
 {
-  bool input = false;
-  bool gameOver = false;
   GameState newState = GameState::GAME_VIEW;
-
-  const bool *buttonsState = getButtonsState();
 
   if (buttonsState[KEY_UP])
   {
-    input = true;
     Vec2 predictedPos = player.pos + player.dir;
 
     if (((int)predictedPos.x < MAP_WIDTH && (int)predictedPos.y < MAP_HEIGHT) &&
@@ -56,19 +51,16 @@ GameState GameScene::processInput(float deltaTime)
 
   if (buttonsState[KEY_LEFT])
   {
-    input = true;
     player.rotate(-90, deltaTime);
   }
 
   if (buttonsState[KEY_RIGHT])
   {
-    input = true;
     player.rotate(90, deltaTime);
   }
 
-  if (buttonsState[KEY_OPTION])
+  if (buttonsJustPressed[KEY_OPTION])
   {
-    input = true;
     newState = GameState::MAP_VIEW;
   }
 

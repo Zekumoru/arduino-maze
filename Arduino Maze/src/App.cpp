@@ -14,6 +14,7 @@
 #include "scenes/MiniMapScene.hpp"
 #include <SDL3\SDL_render.h>
 #include <SDL3\SDL_timer.h>
+#include <cstring>
 
 #define TFT_DC 9
 #define TFT_CS 10
@@ -58,8 +59,23 @@ void setup()
 
 void loop()
 {
+  static bool prevButtonsState[5] = { false, false, false, false, false };
 
-  float deltaTime = getDeltaTime();
+  // Render scene
   scenes[static_cast<int>(state)]->render();
-  state = scenes[static_cast<int>(state)]->processInput(deltaTime);
+
+  // Determine which buttons were just pressed (rising edge)
+  const bool *currentButtonsState = getButtonsState();
+  bool buttonsJustPressed[5] = { false };
+  for (int i = 0; i < 5; ++i)
+  {
+    buttonsJustPressed[i] = currentButtonsState[i] && !prevButtonsState[i];
+  }
+
+  // Handle inputs
+  float deltaTime = getDeltaTime();
+  state = scenes[static_cast<int>(state)]->processInput(currentButtonsState, buttonsJustPressed, deltaTime);
+
+  // Update previous button states
+  memcpy(prevButtonsState, currentButtonsState, sizeof(prevButtonsState));
 }

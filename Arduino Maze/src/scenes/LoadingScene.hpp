@@ -9,7 +9,7 @@ class LoadingScene : public Scene
 {
 public:
   LoadingScene();
-  virtual GameState processInput(float deltaTime) override;
+  virtual GameState processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime) override;
   virtual void render() override;
 
 private:

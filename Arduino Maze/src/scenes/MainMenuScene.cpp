@@ -23,7 +23,7 @@ void MainMenuScene::render()
   tft.print("Press\na button\nto start!");
 }
 
-GameState MainMenuScene::processInput(float deltaTime)
+GameState MainMenuScene::processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime)
 {
   // process input logic here
 

@@ -9,7 +9,7 @@ class MiniMapScene : public Scene
 public:
   MiniMapScene();
   virtual void render() override;
-  virtual GameState processInput(float deltaTime) override;
+  virtual GameState processInput(const bool *buttonsState, const bool *buttonsJustPressed, float deltaTime) override;
 
 private:
   int playerSizeMiniMap; // still not sure about this, i wanted to use an
