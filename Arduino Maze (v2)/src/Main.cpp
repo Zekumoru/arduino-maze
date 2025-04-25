@@ -1,3 +1,6 @@
+#include "definitions.hpp"
+#ifdef IS_USING_SDL
+
 /* Headers */
 #include "ArduinoApp.hpp"
 #include "libs/SDL.hpp"
@@ -24,3 +27,5 @@ int main(int argc, char *args[])
 
   return 0;
 }
+
+#endif

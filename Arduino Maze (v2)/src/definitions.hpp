@@ -2,15 +2,24 @@
 #define DEFINITIONS_HPP
 
 // Comment this out when inside Arduino
-#define IS_USING_SDL
+ #define IS_USING_SDL
 
 #ifndef IS_USING_SDL
 #include "Arduino.h"
 #else
 #include <cstdint>
+
+// Simulate Arduino functions
+#define PROGMEM
+#define F(x) (x)
+#define PSTR(x) (x)
+#define pgm_read_byte(addr) (*(const uint8_t *)(addr))
 #endif
 
 #include "math.h"
+
+// Arduino
+
 
 // tft screen res
 #define SCREEN_WIDTH 320

@@ -1,13 +1,13 @@
-﻿#include "definitions.hpp"
-#include <cstdint>
-#include <SDL3/SDL_timer.h>
-#include "libs/Adafruit_ILI9341.hpp"
-#include "libs/SDL.hpp"
-
+#include <Adafruit_GFX.h>
+#include <Adafruit_ILI9341.h>
+#include <Arduino.h>
+#include <SPI.h>
+#include <avr/pgmspace.h>
 #include "Input.hpp"
 #include "Player.hpp"
 #include "Vec2.hpp"
 #include "Scene.hpp"
+#include "definitions.hpp"
 #include "GameOverScene.hpp"
 #include "GameScene.hpp"
 #include "MiniMapScene.hpp"
@@ -44,11 +44,8 @@ void setup()
   scenes[static_cast<int>(GameState::LOADING)] = &g_loading;
   state = GameState::LOADING;
   scenes[static_cast<int>(state)]->render();
-
-#ifdef IS_USING_SDL
-  SDL_RenderPresent(gRenderer);
-  SDL_Delay(1000);
-#endif
+  // SDL_RenderPresent(gRenderer);
+  // SDL_Delay(1000);
 
   initTables();
   setupButtons();
@@ -76,7 +73,7 @@ void loop()
   }
 
   // Handle inputs
-  float deltaTime = getDeltaTime();
+  float deltaTime = 0.02f; // getDeltaTime();
   state = scenes[static_cast<int>(state)]->processInput(currentButtonsState, buttonsJustPressed, deltaTime);
 
   // Update previous button states
