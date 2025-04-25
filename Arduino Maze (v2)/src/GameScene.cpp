@@ -2,8 +2,13 @@
 
 #include "Input.hpp"
 #include "Player.hpp"
-#include "libs/Adafruit_ILI9341.hpp"
 #include "Map.hpp"
+
+#ifndef IS_USING_SDL
+#include "Adafruit_ILI9341.h"
+#else
+#include "libs/Adafruit_ILI9341.hpp"
+#endif
 
 extern Adafruit_ILI9341 tft;
 
@@ -35,7 +40,7 @@ GameState GameScene::processInput(const bool *buttonsState, const bool *buttonsJ
         ((int)predictedPos.x >= 0 && (int)predictedPos.y >= 0))
     {
       movePlayer(predictedPos, deltaTime);
-      if (map[(int)player.pos.y][(int)player.pos.x] == END)
+      if (mazeMap[(int)player.pos.y][(int)player.pos.x] == END)
       {
         newState = GameState::GAME_OVER;
       }
@@ -66,14 +71,14 @@ GameState GameScene::processInput(const bool *buttonsState, const bool *buttonsJ
 
 void GameScene::movePlayer(Vec2 &nextPos, float deltaTime)
 {
-  if (!(map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
-        map[(int)nextPos.y][(int)player.pos.x] == Tile::WALL_BLUE))
+  if (!(mazeMap[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
+        mazeMap[(int)nextPos.y][(int)player.pos.x] == Tile::WALL_BLUE))
   {
     player.moveY(deltaTime);
   }
 
-  if (!(map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL ||
-        map[(int)player.pos.y][(int)nextPos.x] == Tile::WALL_BLUE))
+  if (!(mazeMap[(int)player.pos.y][(int)nextPos.x] == Tile::WALL ||
+        mazeMap[(int)player.pos.y][(int)nextPos.x] == Tile::WALL_BLUE))
   {
     player.moveX(deltaTime);
   }
@@ -96,8 +101,8 @@ void GameScene::rayCasting()
     Vec2 deltaDist;
     float perpDist;
 
-    deltaDist.x = (rayDir.x == 0.0f) ? 1e30f : std::abs(1 / rayDir.x);
-    deltaDist.y = (rayDir.y == 0.0f) ? 1e30f : std::abs(1 / rayDir.y);
+    deltaDist.x = (rayDir.x == 0.0f) ? 1e30f : (float)fabs(1 / rayDir.x);
+    deltaDist.y = (rayDir.y == 0.0f) ? 1e30f : (float)fabs(1 / rayDir.y);
 
     int stepY;
     int stepX;
@@ -168,7 +173,7 @@ void GameScene::rayCasting()
         hit = true;
       }
 
-      if (map[mapY][mapX] != Tile::EMPTY && map[mapY][mapX] != Tile::END && !hit)
+      if (mazeMap[mapY][mapX] != Tile::EMPTY && mazeMap[mapY][mapX] != Tile::END && !hit)
       {
         hit = true;
       }
@@ -191,7 +196,7 @@ void GameScene::rayCasting()
     }
 
     int color = 0;
-    switch (map[mapY][mapX])
+    switch (mazeMap[mapY][mapX])
     {
     case 1:
       if (side)

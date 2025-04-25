@@ -1,6 +1,10 @@
 #include "MainMenuScene.hpp"
 
+#ifndef IS_USING_SDL
+#include "Adafruit_ILI9341.h"
+#else
 #include "libs/Adafruit_ILI9341.hpp"
+#endif
 
 extern Adafruit_ILI9341 tft;
 

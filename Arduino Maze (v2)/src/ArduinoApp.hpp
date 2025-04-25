@@ -1,4 +1,7 @@
-﻿// SDL includes and compats
+﻿#include "definitions.hpp"
+
+#ifdef IS_USING_SDL
+// SDL includes and compats
 #include <cstdint>
 #include <SDL3/SDL_timer.h>
 #include "libs/Adafruit_ILI9341.hpp"
@@ -8,18 +11,19 @@
 #define F(x) (x)
 #define PSTR(x) (x)
 #define pgm_read_byte(addr) (*(const uint8_t *)(addr))
-
+#else
 // Arduino includes
-//#include <Adafruit_GFX.h>
-//#include <Adafruit_ILI9341.h>
-//#include <Arduino.h>
-//#include <SPI.h>
-//#include <avr/pgmspace.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_ILI9341.h>
+#include <Arduino.h>
+#include <SPI.h>
+#include <avr/pgmspace.h>
+#endif
+
 #include "Input.hpp"
 #include "Player.hpp"
 #include "Vec2.hpp"
 #include "Scene.hpp"
-#include "definitions.hpp"
 #include "GameOverScene.hpp"
 #include "GameScene.hpp"
 #include "MiniMapScene.hpp"
@@ -56,8 +60,11 @@ void setup()
   scenes[static_cast<int>(GameState::LOADING)] = &g_loading;
   state = GameState::LOADING;
   scenes[static_cast<int>(state)]->render();
+
+#ifdef IS_USING_SDL
   SDL_RenderPresent(gRenderer);
   SDL_Delay(1000);
+#endif
 
   initTables();
   setupButtons();

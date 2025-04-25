@@ -1,8 +1,16 @@
 #ifndef DEFINITIONS_HPP
 #define DEFINITIONS_HPP
 
-#include <cmath>
+// Comment this out when inside Arduino
+#define IS_USING_SDL
+
+#ifndef IS_USING_SDL
+#include "Arduino.h"
+#else
 #include <cstdint>
+#endif
+
+#include "math.h"
 
 // tft screen res
 #define SCREEN_WIDTH 320

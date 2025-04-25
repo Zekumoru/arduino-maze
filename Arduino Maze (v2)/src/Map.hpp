@@ -5,7 +5,7 @@
 
 // mapdata
 //!!! Will probably opt for a one dim array (map[HEIGHT*WIDTH] for better access(?) to memory)
-extern int map[MAP_HEIGHT][MAP_WIDTH];
+extern int mazeMap[MAP_HEIGHT][MAP_WIDTH];
 
 extern int miniMap[MAP_HEIGHT][MAP_WIDTH];
 
