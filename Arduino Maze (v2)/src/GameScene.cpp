@@ -1,8 +1,8 @@
 #include "GameScene.hpp"
 
 #include "Input.hpp"
-#include "Player.hpp"
 #include "Map.hpp"
+#include "Player.hpp"
 
 #ifndef IS_USING_SDL
 #include "Adafruit_ILI9341.h"
@@ -40,7 +40,7 @@ GameState GameScene::processInput(const bool *buttonsState, const bool *buttonsJ
         ((int)predictedPos.x >= 0 && (int)predictedPos.y >= 0))
     {
       movePlayer(predictedPos, deltaTime);
-      if (mazeMap[(int)player.pos.y][(int)player.pos.x] == END)
+      if (getMazeTile(player.pos.y, player.pos.x) == END)
       {
         newState = GameState::GAME_OVER;
       }
@@ -71,14 +71,14 @@ GameState GameScene::processInput(const bool *buttonsState, const bool *buttonsJ
 
 void GameScene::movePlayer(Vec2 &nextPos, float deltaTime)
 {
-  if (!(mazeMap[(int)nextPos.y][(int)player.pos.x] == Tile::WALL ||
-        mazeMap[(int)nextPos.y][(int)player.pos.x] == Tile::WALL_BLUE))
+  if (!(getMazeTile(player.pos.y, player.pos.x) == Tile::WALL ||
+        getMazeTile(player.pos.y, player.pos.x) == Tile::WALL_BLUE))
   {
     player.moveY(deltaTime);
   }
 
-  if (!(mazeMap[(int)player.pos.y][(int)nextPos.x] == Tile::WALL ||
-        mazeMap[(int)player.pos.y][(int)nextPos.x] == Tile::WALL_BLUE))
+  if (!(getMazeTile(player.pos.y, player.pos.x) == Tile::WALL ||
+        getMazeTile(player.pos.y, player.pos.x) == Tile::WALL_BLUE))
   {
     player.moveX(deltaTime);
   }
@@ -173,7 +173,7 @@ void GameScene::rayCasting()
         hit = true;
       }
 
-      if (mazeMap[mapY][mapX] != Tile::EMPTY && mazeMap[mapY][mapX] != Tile::END && !hit)
+      if (getMazeTile(mapY, mapX) != Tile::EMPTY && getMazeTile(mapY, mapX) != Tile::END && !hit)
       {
         hit = true;
       }
@@ -196,7 +196,7 @@ void GameScene::rayCasting()
     }
 
     int color = 0;
-    switch (mazeMap[mapY][mapX])
+    switch (getMazeTile(mapY, mapX))
     {
     case 1:
       if (side)

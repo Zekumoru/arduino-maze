@@ -1,18 +1,18 @@
+#include "GameOverScene.hpp"
+#include "GameScene.hpp"
+#include "Input.hpp"
+#include "LoadingScene.hpp"
+#include "MainMenuScene.hpp"
+#include "MiniMapScene.hpp"
+#include "Player.hpp"
+#include "Scene.hpp"
+#include "Vec2.hpp"
+#include "definitions.hpp"
 #include <Adafruit_GFX.h>
 #include <Adafruit_ILI9341.h>
 #include <Arduino.h>
 #include <SPI.h>
 #include <avr/pgmspace.h>
-#include "Input.hpp"
-#include "Player.hpp"
-#include "Vec2.hpp"
-#include "Scene.hpp"
-#include "definitions.hpp"
-#include "GameOverScene.hpp"
-#include "GameScene.hpp"
-#include "MiniMapScene.hpp"
-#include "MainMenuScene.hpp"
-#include "LoadingScene.hpp"
 
 /* ---------- Hardware ---------- */
 #define TFT_RST 8
@@ -20,9 +20,6 @@
 #define TFT_CS 10
 #define TFT_FREQ 3999999
 Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
-
-float cosLT[360];
-float sinLT[360];
 
 Player player;
 Vec2 playerStartPos(2, 2);
@@ -38,16 +35,13 @@ GameOverScene g_gameOver;
 
 void setup()
 {
-  tft.begin();
-  tft.setRotation(1);
+  tft.begin(TFT_FREQ);
+  tft.setRotation(3);
 
   scenes[static_cast<int>(GameState::LOADING)] = &g_loading;
   state = GameState::LOADING;
   scenes[static_cast<int>(state)]->render();
-  // SDL_RenderPresent(gRenderer);
-  // SDL_Delay(1000);
 
-  initTables();
   setupButtons();
   scenes[static_cast<int>(GameState::MAIN_MENU)] = &g_mainMenu;
   scenes[static_cast<int>(GameState::MAP_VIEW)] = &g_miniMap;

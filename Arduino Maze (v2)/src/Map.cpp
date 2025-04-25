@@ -1,6 +1,7 @@
 #include "Map.hpp"
+#include "definitions.hpp"
 
-int mazeMap[MAP_HEIGHT][MAP_WIDTH] = {
+const uint8_t mazeMap[MAP_HEIGHT][MAP_WIDTH] PROGMEM = {
   { 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
   { 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1 },
   { 1, 0, 0, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1 },
@@ -27,7 +28,12 @@ int mazeMap[MAP_HEIGHT][MAP_WIDTH] = {
   { 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
 };
 
-int miniMap[MAP_HEIGHT][MAP_WIDTH];
+uint8_t getMazeTile(int x, int y)
+{
+  return pgm_read_byte(&(mazeMap[y][x]));
+}
+
+uint8_t miniMap[MAP_HEIGHT][MAP_WIDTH];
 
 void resetMiniMap()
 {

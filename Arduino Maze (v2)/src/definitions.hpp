@@ -2,7 +2,7 @@
 #define DEFINITIONS_HPP
 
 // Comment this out when inside Arduino
- #define IS_USING_SDL
+#define IS_USING_SDL
 
 #ifndef IS_USING_SDL
 #include "Arduino.h"
@@ -19,7 +19,6 @@
 #include "math.h"
 
 // Arduino
-
 
 // tft screen res
 #define SCREEN_WIDTH 320
@@ -78,17 +77,27 @@ enum class GameState : uint8_t
   GAME_OVER
 };
 
-extern float cosLT[360];
-extern float sinLT[360];
+// TO SAVE SRAM SPACE, THESE WILL BE REMOVED:
+// extern float cosLT[360];
+// extern float sinLT[360];
 
-inline void initTables()
+// inline void initTables()
+// {
+//   for (int angle = 0; angle < 360; angle++)
+//   {
+//     float rad = (float)angle * PI / 180.0f;
+//     cosLT[angle] = cos(rad);
+//     sinLT[angle] = sin(rad);
+//   }
+// }
+inline float fastCos(uint16_t deg)
 {
-  for (int angle = 0; angle < 360; angle++)
-  {
-    float rad = (float)angle * PI / 180.0f;
-    cosLT[angle] = cos(rad);
-    sinLT[angle] = sin(rad);
-  }
+  return (float)cos(deg * (PI / 180.0f));
+}
+
+inline float fastSin(uint16_t deg)
+{
+  return (float)sin(deg * (PI / 180.0f));
 }
 
 #endif // DEFINITIONS_HPP

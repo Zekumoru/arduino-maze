@@ -1,8 +1,8 @@
 #include "MiniMapScene.hpp"
 
 #include "Input.hpp"
-#include "Player.hpp"
 #include "Map.hpp"
+#include "Player.hpp"
 
 #ifndef IS_USING_SDL
 #include "Adafruit_ILI9341.h"
@@ -13,8 +13,7 @@
 extern Adafruit_ILI9341 tft;
 
 extern Player player;
-extern int mazeMap[MAP_HEIGHT][MAP_WIDTH];
-extern int miniMap[MAP_HEIGHT][MAP_WIDTH];
+extern uint8_t miniMap[MAP_HEIGHT][MAP_WIDTH];
 
 MiniMapScene::MiniMapScene() : playerSizeMiniMap(4)
 {
@@ -50,7 +49,7 @@ void MiniMapScene::renderMiniMap()
       if (!miniMap[y][x])
         continue;
 
-      switch (mazeMap[y][x])
+      switch (getMazeTile(y, x))
       {
       case Tile::EMPTY:
         color = COL_DARKGREY;

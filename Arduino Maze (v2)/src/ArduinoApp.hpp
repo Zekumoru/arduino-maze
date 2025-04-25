@@ -1,18 +1,18 @@
 ﻿#include "definitions.hpp"
-#include <cstdint>
-#include <SDL3/SDL_timer.h>
 #include "libs/Adafruit_ILI9341.hpp"
 #include "libs/SDL.hpp"
+#include <SDL3/SDL_timer.h>
+#include <cstdint>
 
-#include "Input.hpp"
-#include "Player.hpp"
-#include "Vec2.hpp"
-#include "Scene.hpp"
 #include "GameOverScene.hpp"
 #include "GameScene.hpp"
-#include "MiniMapScene.hpp"
-#include "MainMenuScene.hpp"
+#include "Input.hpp"
 #include "LoadingScene.hpp"
+#include "MainMenuScene.hpp"
+#include "MiniMapScene.hpp"
+#include "Player.hpp"
+#include "Scene.hpp"
+#include "Vec2.hpp"
 
 /* ---------- Hardware ---------- */
 #define TFT_RST 8
@@ -20,9 +20,6 @@
 #define TFT_CS 10
 #define TFT_FREQ 3999999
 Adafruit_ILI9341 tft(TFT_CS, TFT_DC, TFT_RST);
-
-float cosLT[360];
-float sinLT[360];
 
 Player player;
 Vec2 playerStartPos(2, 2);
@@ -50,7 +47,6 @@ void setup()
   SDL_Delay(1000);
 #endif
 
-  initTables();
   setupButtons();
   scenes[static_cast<int>(GameState::MAIN_MENU)] = &g_mainMenu;
   scenes[static_cast<int>(GameState::MAP_VIEW)] = &g_miniMap;
