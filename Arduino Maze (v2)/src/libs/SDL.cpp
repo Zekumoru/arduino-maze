@@ -13,8 +13,8 @@
 #include <SDL3\SDL_video.h>
 #include <cstdint>
 
-const int16_t kScreenWidth = 320;
-const int16_t kScreenHeight = 240;
+const int16_t kScreenWidth = SCREEN_WIDTH;
+const int16_t kScreenHeight = SCREEN_HEIGHT;
 
 SDL_Window *gWindow{ nullptr };
 SDL_Renderer *gRenderer{ nullptr };

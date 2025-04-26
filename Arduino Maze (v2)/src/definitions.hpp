@@ -2,7 +2,7 @@
 #define DEFINITIONS_HPP
 
 // Comment this out when inside Arduino
-#define IS_USING_SDL
+//#define IS_USING_SDL
 
 #ifndef IS_USING_SDL
 #include "Arduino.h"
@@ -20,9 +20,11 @@
 
 // Arduino
 
+#define DEBOUNCE_MS 20
+
 // tft screen res
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH 96
+#define SCREEN_HEIGHT 72
 
 #define MAX_LINE_LEN SCREEN_HEIGHT
 
@@ -34,7 +36,7 @@
 
 // it's in pixels. one side needed since it's gonna
 // be a square, used to render the minimap
-#define CELL_SIZE 10
+#define CELL_SIZE 3
 
 #define PI 3.1415926536f // float PI
 
@@ -58,7 +60,8 @@ enum Button : uint8_t
   KEY_UP,
   KEY_LEFT,
   KEY_RIGHT,
-  KEY_OPTION
+  KEY_OPTION,
+  NUM_BUTTONS
 };
 enum Tile : uint8_t
 {

@@ -11,5 +11,5 @@ extern Adafruit_ILI9341 tft;
 void Scene::clearScreen()
 {
   // call to clear pixel buffer with black
-  tft.fillScreen(COL_BLACK);
+  tft.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, COL_BLACK);
 }
