@@ -53,6 +53,13 @@ void setup()
 
 void loop()
 {
+  static bool isInitialized = false;
+  if (!isInitialized && state == GameState::GAME_VIEW)
+  {
+    tft.fillScreen(COL_BLACK);
+    isInitialized = true;
+  }
+
   static bool prevButtonsState[5] = { false, false, false, false, false };
 
   // Render scene
