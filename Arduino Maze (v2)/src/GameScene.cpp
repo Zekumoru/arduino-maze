@@ -23,8 +23,12 @@ GameScene::GameScene()
 
 void GameScene::render()
 {
+#ifdef IS_USING_SDL
+  // These two will be replaced since they're slow and create a wobbling effect in Arduino:
   clearScreen();
   drawFloor();
+#endif
+
   rayCasting();
 }
 
@@ -220,8 +224,16 @@ void GameScene::drawFloor()
   tft.fillRect(0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2, COL_GREY);
 }
 
-void GameScene::drawVertLine(int x, int lenght, int color)
+void GameScene::drawVertLine(int x, int length, int color)
 {
-  int lineStartY = (SCREEN_HEIGHT - lenght) / 2;
-  tft.drawFastVLine(x, lineStartY, lenght, color);
+  int lineStartY = (SCREEN_HEIGHT - length) / 2;
+
+#ifdef IS_USING_SDL
+  // This will be replaced in Arduino since it's slow, creating 6 operations Assembly-wise.
+  tft.drawFastVLine(x, lineStartY, length, color);
+#else
+  tft.drawFastVLine(x, 0, lineStartY - 1, COL_BLACK);                                // draw black bg
+  tft.drawFastVLine(x, lineStartY, length, color);                                   // draw vert line
+  tft.drawFastVLine(x, lineStartY + length, (SCREEN_HEIGHT - length) / 2, COL_GREY); // draw floor
+#endif
 }

@@ -36,7 +36,7 @@
 
 // it's in pixels. one side needed since it's gonna
 // be a square, used to render the minimap
-#define CELL_SIZE 3
+#define CELL_SIZE (SCREEN_WIDTH / MAP_WIDTH)
 
 #define PI 3.1415926536f // float PI
 
