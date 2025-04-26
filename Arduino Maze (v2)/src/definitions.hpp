@@ -2,7 +2,8 @@
 #define DEFINITIONS_HPP
 
 // Comment this out when inside Arduino
-//#define IS_USING_SDL
+// #define IS_USING_SDL
+// #define IS_SMALL_SCREEN
 
 #ifndef IS_USING_SDL
 #include "Arduino.h"
@@ -23,8 +24,13 @@
 #define DEBOUNCE_MS 20
 
 // tft screen res
-#define SCREEN_WIDTH 96
-#define SCREEN_HEIGHT 72
+#ifdef IS_SMALL_SCREEN
+#define SCREEN_WIDTH 64
+#define SCREEN_HEIGHT 48
+#else
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+#endif
 
 #define MAX_LINE_LEN SCREEN_HEIGHT
 
