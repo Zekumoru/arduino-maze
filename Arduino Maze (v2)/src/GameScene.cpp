@@ -75,14 +75,14 @@ GameState GameScene::processInput(const bool *buttonsState, const bool *buttonsJ
 
 void GameScene::movePlayer(Vec2 &nextPos, float deltaTime)
 {
-  if (!(getMazeTile(player.pos.y, player.pos.x) == Tile::WALL ||
-        getMazeTile(player.pos.y, player.pos.x) == Tile::WALL_BLUE))
+  if (!(getMazeTile((int)nextPos.y, (int)player.pos.x) == Tile::WALL ||
+        getMazeTile((int)nextPos.y, (int)player.pos.x) == Tile::WALL_BLUE))
   {
     player.moveY(deltaTime);
   }
 
-  if (!(getMazeTile(player.pos.y, player.pos.x) == Tile::WALL ||
-        getMazeTile(player.pos.y, player.pos.x) == Tile::WALL_BLUE))
+  if (!(getMazeTile(player.pos.y, (int)nextPos.x) == Tile::WALL ||
+        getMazeTile(player.pos.y, (int)nextPos.x) == Tile::WALL_BLUE))
   {
     player.moveX(deltaTime);
   }
